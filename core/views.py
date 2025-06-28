@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.core.mail import send_mail
 from .forms import ContactForm
 
+def home_view(request):
+    """Home page view with centered logo."""
+    return render(request, "core/home.html")
+
 def contact_view(request):
     submitted = False
     if request.method == "POST":
