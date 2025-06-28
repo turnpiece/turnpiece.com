@@ -2,147 +2,63 @@
 
 {% block title %}Support - Turnpiece{% endblock %}
 
-{% block extra_css %}
-<style>
-    body {
-        background-color: #f5f5f5;
-        color: #333;
-    }
-    
-    .container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 40px 20px;
-    }
-    
-    .header {
-        text-align: center;
-        margin-bottom: 40px;
-    }
-    
-    .header h1 {
-        font-size: 2.5rem;
-        margin-bottom: 10px;
-        color: #000;
-    }
-    
-    .header p {
-        font-size: 1.1rem;
-        color: #666;
-        margin: 0;
-    }
-    
-    .form-container {
-        background: white;
-        padding: 40px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    
-    .success-message {
-        background: #d4edda;
-        color: #155724;
-        padding: 20px;
-        border-radius: 4px;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-    
-    .form-group {
-        margin-bottom: 20px;
-    }
-    
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: 500;
-        color: #333;
-    }
-    
-    .form-group input,
-    .form-group textarea {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 16px;
-        font-family: inherit;
-        box-sizing: border-box;
-    }
-    
-    .form-group textarea {
-        height: 120px;
-        resize: vertical;
-    }
-    
-    .form-group input:focus,
-    .form-group textarea:focus {
-        outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
-    }
-    
-    .submit-btn {
-        background: #007bff;
-        color: white;
-        padding: 12px 30px;
-        border: none;
-        border-radius: 4px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-    
-    .submit-btn:hover {
-        background: #0056b3;
-    }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="container">
-    <div class="header">
-        <h1>Support</h1>
-        <p>Need help? We're here to assist you.</p>
+<div class="max-w-2xl mx-auto px-4 py-8">
+    <div class="text-center mb-10">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Support</h1>
+        <p class="text-lg text-gray-600">Need help? We're here to assist you.</p>
     </div>
     
-    <div class="form-container">
+    <div class="bg-white rounded-lg shadow-lg p-8">
         {% if submitted %}
-            <div class="success-message">
-                <h3>Thank you!</h3>
+            <div class="bg-green-50 border border-green-200 text-green-800 px-6 py-4 rounded-md mb-6 text-center">
+                <h3 class="text-lg font-semibold mb-2">Thank you!</h3>
                 <p>Your message has been sent. We'll get back to you as soon as possible.</p>
             </div>
         {% endif %}
         
-        <form method="post">
+        <form method="post" class="space-y-6">
             {% csrf_token %}
             
-            <div class="form-group">
-                <label for="{{ form.name.id_for_label }}">Name:</label>
+            <div>
+                <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Name:</label>
                 {{ form.name }}
                 {% if form.name.errors %}
-                    <div style="color: #dc3545; font-size: 14px; margin-top: 5px;">{{ form.name.errors.0 }}</div>
+                    <div class="text-red-600 text-sm mt-1">{{ form.name.errors.0 }}</div>
                 {% endif %}
             </div>
             
-            <div class="form-group">
-                <label for="{{ form.email.id_for_label }}">Email:</label>
+            <div>
+                <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Email:</label>
                 {{ form.email }}
                 {% if form.email.errors %}
-                    <div style="color: #dc3545; font-size: 14px; margin-top: 5px;">{{ form.email.errors.0 }}</div>
+                    <div class="text-red-600 text-sm mt-1">{{ form.email.errors.0 }}</div>
                 {% endif %}
             </div>
             
-            <div class="form-group">
-                <label for="{{ form.message.id_for_label }}">Message:</label>
+            <div>
+                <label for="{{ form.message.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Message:</label>
                 {{ form.message }}
                 {% if form.message.errors %}
-                    <div style="color: #dc3545; font-size: 14px; margin-top: 5px;">{{ form.message.errors.0 }}</div>
+                    <div class="text-red-600 text-sm mt-1">{{ form.message.errors.0 }}</div>
                 {% endif %}
             </div>
             
-            <button type="submit" class="submit-btn">Send Message</button>
+            <button type="submit" class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium">
+                Send Message
+            </button>
         </form>
     </div>
 </div>
+
+<style>
+    /* Style the form fields to match Tailwind design */
+    input, textarea {
+        @apply w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+    }
+    
+    textarea {
+        @apply h-32 resize-vertical;
+    }
+</style>
 {% endblock %} 

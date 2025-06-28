@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: turnpiece-website
+    env: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt && npm run build && python manage.py migrate && python manage.py collectstatic --noinput
+    startCommand: gunicorn turnpiece.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: DEBUG
+        value: False
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        value: turnpiece-website.onrender.com
+      - key: DATABASE_URL
+        fromDatabase:
+          name: turnpiece-db
+          property: connectionString
+    autoDeploy: true
+
+databases:
+  - name: turnpiece-db
+    databaseName: turnpiece
+    user: turnpiece
+    plan: starter

@@ -5,83 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Turnpiece{% endblock %}</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-        }
-        
-        .header {
-            background: white;
-            border-bottom: 1px solid #e0e0e0;
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .logo {
-            height: 40px;
-            width: auto;
-        }
-        
-        .nav {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-        }
-        
-        .nav a {
-            color: #333;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-        
-        .nav a:hover {
-            color: #007bff;
-        }
-        
-        .main-content {
-            min-height: calc(100vh - 70px);
-        }
-    </style>
-    {% block extra_css %}{% endblock %}
+    {% load tailwind_tags %}
+    {% tailwind_css %}
     {% block head %}{% endblock %}
 </head>
-<body>
-    <header class="header">
-        <div class="header-container">
-            <a href="{% url 'home' %}">
-                <picture>
-                    <source srcset="{% static 'assets/tp-logo-white-transparent-fixed.svg' %}" type="image/svg+xml">
-                    <img src="{% static 'assets/tp-logo-white-transparent-fixed.png' %}" alt="Turnpiece" class="logo">
-                </picture>
-            </a>
-            <nav class="nav">
-                <a href="{% url 'home' %}">Home</a>
-                <a href="{% url 'support' %}">Support</a>
-            </nav>
+<body class="bg-gray-50">
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="{% url 'home' %}" class="flex items-center">
+                    <picture>
+                        <source srcset="{% static 'assets/tp-logo-white-transparent-fixed.svg' %}" type="image/svg+xml">
+                        <img src="{% static 'assets/tp-logo-white-transparent-fixed.png' %}" alt="Turnpiece" class="h-10 w-auto">
+                    </picture>
+                </a>
+                <nav class="flex space-x-8">
+                    <a href="{% url 'home' %}" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                    <a href="{% url 'support' %}" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">Support</a>
+                </nav>
+            </div>
         </div>
     </header>
     
-    <main class="main-content">
+    <main class="min-h-screen">
         {% block content %}{% endblock %}
     </main>
 </body>
