@@ -147,3 +147,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Tailwind CSS Configuration
 TAILWIND_APP_NAME = 'theme'
+
+print("ALLOWED_HOSTS:", ALLOWED_HOSTS)
