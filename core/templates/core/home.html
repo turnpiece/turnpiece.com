@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_no_header.html" %}
 {% load static %}
 
 {% block title %}Turnpiece{% endblock %}
@@ -9,7 +9,6 @@
         <source srcset="{% static 'assets/tp-logo-white-transparent-fixed.svg' %}" type="image/svg+xml">
         <img src="{% static 'assets/tp-logo-white-transparent-fixed.png' %}" alt="Turnpiece" class="h-32 w-auto mb-4">
     </picture>
-    <h1 class="text-3xl font-bold text-black">Turnpiece</h1>
 </div>
 
 <style>
