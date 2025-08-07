@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Project Not Found{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 py-8 text-center">
+    <h1 class="text-4xl font-bold text-gray-900 mb-4">Project Not Found</h1>
+    <p class="text-lg text-gray-600 mb-8">The project or repository you're looking for doesn't exist.</p>
+    
+    <a href="{% url 'project_list' %}" 
+       class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        View All Projects
+    </a>
+</div>
+{% endblock %} 

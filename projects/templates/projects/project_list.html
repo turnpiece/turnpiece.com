@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 py-8">
+    <div class="mb-8 text-center">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+            {% if filtered_tech %}
+            Projects using {{ filtered_tech }}
+            {% else %}
+            Projects
+            {% endif %}
+        </h1>
+        <p class="text-lg text-gray-600">
+            {% if filtered_tech %}
+            Showing projects and components that use {{ filtered_tech }}
+            {% else %}
+            Explore my open source projects and their components
+            {% endif %}
+        </p>
+        {% if filtered_tech %}
+        <div class="mt-4">
+            <a href="{% url 'project_list' %}" 
+               class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                ← View All Projects
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for project in projects %}
+        <a href="{% url 'project_detail' project.slug %}" class="block">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer">
+                <div class="flex items-center mb-4">
+                    {% if project.logo_svg or project.logo_png %}
+                    <picture class="h-8 -ml-2 mr-3">
+                        {% if project.logo_svg %}
+                        <source srcset="{% static project.logo_svg %}" type="image/svg+xml">
+                        {% endif %}
+                        {% if project.logo_png %}
+                        <img src="{% static project.logo_png %}" alt="{{ project.name }} Logo" class="h-8">
+                        {% endif %}
+                    </picture>
+                    {% endif %}
+                    <h2 class="text-xl font-semibold text-gray-900">{{ project.name }}</h2>
+                </div>
+                
+                <p class="text-gray-600 mb-4">{{ project.description }}</p>
+                
+                <div class="mb-4">
+                    <h3 class="text-sm font-medium text-gray-900 mb-2">Components:</h3>
+                    <div class="space-y-1">
+                        {% for repo in project.repositories %}
+                        <div class="text-sm text-gray-600">{{ repo.name }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                    View Project
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 
