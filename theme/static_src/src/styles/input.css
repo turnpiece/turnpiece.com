@@ -1,3 +1,82 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
+
+/* GitHub-like README styling */
+@layer components {
+  .github-readme {
+    @apply text-gray-900 leading-relaxed;
+  }
+  
+  .github-readme h1 {
+    @apply text-2xl font-semibold text-gray-900 mb-4 mt-0 pb-2 border-b border-gray-200;
+  }
+  
+  .github-readme h2 {
+    @apply text-xl font-semibold text-gray-900 mb-3 mt-8 pb-2 border-b border-gray-200;
+  }
+  
+  .github-readme h3 {
+    @apply text-lg font-semibold text-gray-900 mb-2 mt-6;
+  }
+  
+  .github-readme p {
+    @apply text-gray-900 mb-4 leading-7;
+  }
+  
+  .github-readme ul {
+    @apply list-disc list-inside mb-4 space-y-1;
+  }
+  
+  .github-readme ol {
+    @apply list-decimal list-inside mb-4 space-y-1;
+  }
+  
+  .github-readme li {
+    @apply text-gray-900 leading-7;
+  }
+  
+  .github-readme code {
+    @apply bg-gray-100 px-1 py-0.5 rounded text-sm font-mono text-gray-800;
+  }
+  
+  .github-readme pre {
+    @apply bg-gray-50 border border-gray-200 rounded-md p-4 mb-4 overflow-x-auto;
+  }
+  
+  .github-readme pre code {
+    @apply bg-transparent p-0 text-sm text-gray-900;
+  }
+  
+  .github-readme a {
+    @apply text-blue-600 hover:text-blue-800 underline;
+  }
+  
+  .github-readme strong {
+    @apply font-semibold text-gray-900;
+  }
+  
+  .github-readme em {
+    @apply italic text-gray-900;
+  }
+  
+  .github-readme hr {
+    @apply border-gray-300 my-8;
+  }
+  
+  .github-readme blockquote {
+    @apply border-l-4 border-gray-300 pl-4 py-2 my-4 text-gray-600 italic;
+  }
+  
+  .github-readme table {
+    @apply w-full border-collapse border border-gray-300 mb-4;
+  }
+  
+  .github-readme th {
+    @apply bg-gray-50 border border-gray-300 px-3 py-2 text-left font-semibold;
+  }
+  
+  .github-readme td {
+    @apply border border-gray-300 px-3 py-2;
+  }
+} 

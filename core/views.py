@@ -49,12 +49,35 @@ def contact_view(request):
 
 def temphist_docs_view(request):
     """TempHist app documentation page."""
-    # GitHub README URL for TempHist app
-    github_readme_url = "https://raw.githubusercontent.com/turnpiece/temphist_app/main/README.md"
+    # Repository information with custom project details
+    repo_info = {
+        'name': 'TempHist',
+        'description': 'Flutter application for temperature visualization',
+        'github_url': 'https://github.com/turnpiece/temphist_app',
+        'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_app/main/README.md',
+        # Custom project information
+        'logo_svg': 'assets/temphist-logo.svg',  # SVG logo
+        'logo_png': 'assets/temphist-logo.png',  # PNG fallback
+        'screenshots': [
+            {
+                'src': 'assets/TempHist-iPhone-screenshot.png',
+                'alt': 'TempHist main screen showing temperature chart',
+                'caption': 'Main temperature visualization screen'
+            }
+        ],
+        'custom_description': 'TempHist is a Flutter application that visualizes historical average temperatures by year using horizontal bar charts. Built with the graphic package, it provides an intuitive way to explore temperature trends over time.',
+        'tech_stack': ['Flutter', 'Dart', 'Graphic Package', 'Firebase'],
+        'features': [
+            'Horizontal bar chart visualization',
+            'Historical temperature data display',
+            'Cross-platform (iOS, Android, Web)',
+            'Firebase backend integration'
+        ]
+    }
     
     try:
         # Fetch README content from GitHub
-        response = requests.get(github_readme_url, timeout=10)
+        response = requests.get(repo_info['readme_url'], timeout=10)
         if response.status_code == 200:
             readme_content = response.text
             # Convert markdown to HTML (basic conversion)
@@ -64,14 +87,17 @@ def temphist_docs_view(request):
     except Exception as e:
         html_content = f"<p>Error loading documentation: {str(e)}</p>"
     
-    return render(request, "core/temphist_docs.html", {"content": html_content})
+    return render(request, "core/github_docs.html", {
+        "content": html_content,
+        "repo_info": repo_info
+    })
 
 def convert_markdown_to_html(markdown_text):
     """Basic markdown to HTML conversion."""
     # Convert headers
     markdown_text = re.sub(r'^### (.*$)', r'<h3>\1</h3>', markdown_text, flags=re.MULTILINE)
     markdown_text = re.sub(r'^## (.*$)', r'<h2>\1</h2>', markdown_text, flags=re.MULTILINE)
-    markdown_text = re.sub(r'^# (.*$)', r'<h1>\1</h1>', markdown_text, flags=re.MULTILINE)
+    markdown_text = re.sub(r'^# (.*$)', r'<h2>\1</h2>', markdown_text, flags=re.MULTILINE)  # Convert H1 to H2
     
     # Convert bold and italic
     markdown_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', markdown_text)
@@ -84,32 +110,77 @@ def convert_markdown_to_html(markdown_text):
     # Convert links
     markdown_text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', markdown_text)
     
-    # Convert lists
-    markdown_text = re.sub(r'^\* (.*$)', r'<li>\1</li>', markdown_text, flags=re.MULTILINE)
-    markdown_text = re.sub(r'^- (.*$)', r'<li>\1</li>', markdown_text, flags=re.MULTILINE)
-    
-    # Wrap lists in ul tags (basic implementation)
+    # Convert lists - first pass: convert list items to HTML
     lines = markdown_text.split('\n')
-    in_list = False
-    result = []
+    processed_lines = []
     
     for line in lines:
-        if line.strip().startswith('<li>'):
-            if not in_list:
+        stripped = line.strip()
+        if stripped.startswith('* ') or stripped.startswith('- '):
+            processed_lines.append(re.sub(r'^[\*\-] (.*$)', r'<li>\1</li>', line, flags=re.MULTILINE))
+        elif re.match(r'^\d+\. ', stripped):
+            processed_lines.append(re.sub(r'^\d+\. (.*$)', r'<li>\1</li>', line, flags=re.MULTILINE))
+        else:
+            processed_lines.append(line)
+    
+    # Second pass: wrap list items in ul/ol tags with proper start attributes
+    result = []
+    in_ul = False
+    in_ol = False
+    current_ol_start = 1
+    
+    for i, line in enumerate(processed_lines):
+        stripped = line.strip()
+        
+        if stripped.startswith('<li>'):
+            # Determine if this is an ordered list by checking the original line
+            original_line = lines[i] if i < len(lines) else ''
+            is_ordered = bool(re.match(r'^\d+\. ', original_line.strip()))
+            
+            if is_ordered:
+                # Extract the number from the original line
+                match = re.match(r'^(\d+)\. ', original_line.strip())
+                if match:
+                    number = int(match.group(1))
+                    
+                    if not in_ol:
+                        if in_ul:
+                            result.append('</ul>')
+                            in_ul = False
+                        # Use the actual number as the start value
+                        result.append(f'<ol start="{number}">')
+                        in_ol = True
+                        current_ol_start = number
+                    elif number != current_ol_start:
+                        # If the number changes, close current ol and start new one
+                        result.append('</ol>')
+                        result.append(f'<ol start="{number}">')
+                        current_ol_start = number
+            elif not in_ul:
+                if in_ol:
+                    result.append('</ol>')
+                    in_ol = False
                 result.append('<ul>')
-                in_list = True
+                in_ul = True
             result.append(line)
         else:
-            if in_list:
+            if in_ul:
                 result.append('</ul>')
-                in_list = False
+                in_ul = False
+            elif in_ol:
+                result.append('</ol>')
+                in_ol = False
             result.append(line)
     
-    if in_list:
+    if in_ul:
         result.append('</ul>')
+    elif in_ol:
+        result.append('</ol>')
+    
+    markdown_text = '\n'.join(result)
     
     # Convert paragraphs
-    content = '\n'.join(result)
+    content = markdown_text
     content = re.sub(r'\n\n([^<].*?)\n\n', r'\n\n<p>\1</p>\n\n', content, flags=re.DOTALL)
     
     return content
