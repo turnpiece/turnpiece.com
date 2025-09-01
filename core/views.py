@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.core.mail import send_mail
+from django.conf import settings
 from .forms import ContactForm
 import requests
 import re
@@ -13,10 +14,10 @@ def home_view(request):
             cd = form.cleaned_data
             # Replace below with actual email config
             send_mail(
-                subject=f"Contact message from {cd['name']}",
+                subject=f"Turnpiece.com contact message from {cd['name']}",
                 message=cd['message'],
                 from_email=cd['email'],
-                recipient_list=["you@example.com"],
+                recipient_list=[settings.CONTACT_EMAIL],
             )
             submitted = True
             form = ContactForm()  # clear form after submission
@@ -34,10 +35,10 @@ def support_view(request):
             cd = form.cleaned_data
             # Replace below with actual email config
             send_mail(
-                subject=f"Support request from {cd['name']}",
+                subject=f"Turnpiece.com support request from {cd['name']}",
                 message=cd['message'],
                 from_email=cd['email'],
-                recipient_list=["support@turnpiece.com"],
+                recipient_list=[settings.SUPPORT_EMAIL],
             )
             submitted = True
             form = ContactForm()  # clear form after submission
@@ -56,7 +57,7 @@ def contact_view(request):
                 subject=f"Support message from {cd['name']}",
                 message=cd['message'],
                 from_email=cd['email'],
-                recipient_list=["you@example.com"],
+                recipient_list=[settings.CONTACT_EMAIL],
             )
             submitted = True
             form = ContactForm()  # clear form after submission

@@ -163,20 +163,20 @@ def project_detail_view(request, project_slug):
                         'Data processing and analysis',
                         'Authentication and authorization'
                     ]
-                },
-                {
-                    'name': 'WordPress Plugin',
-                    'slug': 'wordpress-plugin',
-                    'description': 'WordPress integration plugin',
-                    'github_url': 'https://github.com/turnpiece/temphist_wordpress',
-                    'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_wordpress/main/README.md',
-                    'tech_stack': ['PHP', 'WordPress', 'JavaScript'],
-                    'features': [
-                        'WordPress widget integration',
-                        'Temperature data display',
-                        'Customizable charts and graphs'
-                    ]
                 }
+                # {
+                #     'name': 'WordPress Plugin',
+                #     'slug': 'wordpress-plugin',
+                #     'description': 'WordPress integration plugin',
+                #     'github_url': 'https://github.com/turnpiece/temphist_wordpress',
+                #     'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_wordpress/main/README.md',
+                #     'tech_stack': ['PHP', 'WordPress', 'JavaScript'],
+                #     'features': [
+                #         'WordPress widget integration',
+                #         'Temperature data display',
+                #         'Customizable charts and graphs'
+                #     ]
+                # }
             ]
         }
     }
@@ -242,19 +242,19 @@ def repository_detail_view(request, project_slug, repo_slug):
                         'Data processing and analysis',
                         'Authentication and authorization'
                     ]
-                },
-                'wordpress-plugin': {
-                    'name': 'WordPress Plugin',
-                    'description': 'WordPress integration plugin',
-                    'github_url': 'https://github.com/turnpiece/temphist_wordpress',
-                    'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_wordpress/main/README.md',
-                    'tech_stack': ['PHP', 'WordPress', 'JavaScript'],
-                    'features': [
-                        'WordPress widget integration',
-                        'Temperature data display',
-                        'Customizable charts and graphs'
-                    ]
                 }
+                # 'wordpress-plugin': {
+                #     'name': 'WordPress Plugin',
+                #     'description': 'WordPress integration plugin',
+                #     'github_url': 'https://github.com/turnpiece/temphist_wordpress',
+                #     'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_wordpress/main/README.md',
+                #     'tech_stack': ['PHP', 'WordPress', 'JavaScript'],
+                #     'features': [
+                #         'WordPress widget integration',
+                #         'Temperature data display',
+                #         'Customizable charts and graphs'
+                #     ]
+                # }
             }
         }
     }

@@ -89,7 +89,16 @@ turnpiece.com/
    python manage.py runserver
    ```
 
-6. **Visit the site**
+6. **Set up environment variables**
+
+   Copy the example environment file and configure your settings:
+
+   ```bash
+   cp env.example .env
+   # Edit .env with your actual email addresses and SMTP settings
+   ```
+
+7. **Visit the site**
    - Home page: http://127.0.0.1:8000/
    - Support page: http://127.0.0.1:8000/support/
 
@@ -119,27 +128,38 @@ python manage.py createsuperuser
 
 ### Email Settings
 
-To enable email functionality for the support form, update `turnpiece/settings.py`:
+The application now uses environment variables for email configuration. Set the following in your `.env` file:
 
-```python
-# Email configuration (example for Gmail)
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@gmail.com'
-EMAIL_HOST_PASSWORD = 'your-app-password'
+```bash
+# Email recipient addresses
+CONTACT_EMAIL=paul@turnpiece.com
+SUPPORT_EMAIL=support@turnpiece.com
+
+# SMTP configuration (for production)
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-app-password
+DJANGO_DEVELOPMENT=False
 ```
+
+For development, you can set `DJANGO_DEVELOPMENT=True` to use the console email backend instead of SMTP.
 
 ### Environment Variables
 
-For production, consider using environment variables for sensitive settings:
+The application uses environment variables for sensitive settings. Key variables include:
 
-```python
-import os
+```bash
+# Django core settings
+SECRET_KEY=your-secret-key-here
+DEBUG=False
+ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'your-secret-key-here')
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+# Email configuration
+CONTACT_EMAIL=paul@turnpiece.com
+SUPPORT_EMAIL=support@turnpiece.com
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-app-password
 ```
 
 ## Deployment
