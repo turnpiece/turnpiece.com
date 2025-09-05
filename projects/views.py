@@ -29,7 +29,7 @@ PROJECTS_DATA = {
         'colour': '#242456',  # Dark blue colour
         'logo_svg': 'assets/temphist-logo.svg',
         'logo_png': 'assets/temphist-logo.png',
-        'overview': 'TempHist is a platform for visualising and analysing historical temperature data, compare the today\'s temperature with the temperatures on the same date and in the same location over the past 50 years. The project consists of an API that provides temperature data and analysis, a mobile app and a website that visualise the data.',
+        'overview': 'TempHist is a platform for visualising and analysing historical temperature data, compare the today\'s temperature with the temperatures on the same date and in the same location over the past 50 years. The project consists of an API that provides temperature data and analysis, along with a mobile app and a website that visualise the data.',
         'repositories': [
             {
                 'name': 'Flutter App',
