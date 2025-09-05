@@ -20,47 +20,70 @@ def tech_to_slug(tech_name):
     }
     return tech_mapping.get(tech_name, tech_name.lower().replace(' ', '-'))
 
+# Single source of truth for project data
+PROJECTS_DATA = {
+    'temphist': {
+        'slug': 'temphist',
+        'name': 'TempHist',
+        'description': 'Historical temperature visualisation and analysis platform',
+        'color': '#242456',  # Dark blue color
+        'logo_svg': 'assets/temphist-logo.svg',
+        'logo_png': 'assets/temphist-logo.png',
+        'overview': 'TempHist is a platform for visualising and analysing historical temperature data. The project consists of multiple components working together to provide a complete solution.',
+        'repositories': [
+            {
+                'name': 'Flutter App',
+                'slug': 'app',
+                'description': 'Mobile and web application for temperature visualisation',
+                'github_url': 'https://github.com/turnpiece/temphist_app',
+                'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_app/main/README.md',
+                'tech_stack': ['Flutter', 'Dart', 'Firebase'],
+                'features': [
+                    'Horizontal bar chart visualization',
+                    'Historical temperature data display',
+                    'Cross-platform (iOS, Android, Web)',
+                    'Firebase backend integration'
+                ],
+                'screenshot': '/static/assets/TempHist-iPhone-screenshot.png',
+                'color': '#8B5CF6',  # Purple color for Flutter app
+            },
+            {
+                'name': 'Website',
+                'slug': 'website',
+                'description': 'Project website and documentation',
+                'github_url': 'https://github.com/turnpiece/TempHist',
+                'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist/main/README.md',
+                'tech_stack': ['HTML', 'CSS', 'JavaScript'],
+                'features': [
+                    'Project documentation',
+                    'API documentation',
+                    'User guides and tutorials'
+                ],
+                'screenshot': '/static/assets/TempHist-website-screenshot.png',
+                'color': '#F59E0B',  # Orange color for website
+            },
+            {
+                'name': 'API',
+                'slug': 'api',
+                'description': 'Backend API and data services',
+                'github_url': 'https://github.com/turnpiece/TempHist-API',
+                'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist-API/main/README.md',
+                'tech_stack': ['Python', 'FastAPI', 'PostgreSQL'],
+                'features': [
+                    'Temperature data endpoints',
+                    'Data processing and analysis',
+                    'Authentication and authorization'
+                ],
+                'logo': '/static/assets/temphist-logo.png',
+            }
+        ]
+    }
+}
+
 def project_list_view(request, tech_slug=None):
     """List all projects, optionally filtered by tech stack."""
-    projects = [
-        {
-            'slug': 'temphist',
-            'name': 'TempHist',
-            'description': 'Temperature visualization and analysis platform',
-            'logo_svg': 'assets/temphist-logo.svg',
-            'logo_png': 'assets/temphist-logo.png',
-            'repositories': [
-                {
-                    'name': 'Flutter App',
-                    'slug': 'app',
-                    'description': 'Cross-platform mobile and web application',
-                    'github_url': 'https://github.com/turnpiece/temphist_app',
-                    'tech_stack': ['Flutter', 'Dart', 'Graphic Package', 'Firebase'],
-                },
-                {
-                    'name': 'Website',
-                    'slug': 'website', 
-                    'description': 'Project website and documentation',
-                    'github_url': 'https://github.com/turnpiece/temphist_website',
-                    'tech_stack': ['HTML', 'CSS', 'JavaScript'],
-                },
-                {
-                    'name': 'API',
-                    'slug': 'api',
-                    'description': 'Backend API and data services',
-                    'github_url': 'https://github.com/turnpiece/temphist_api',
-                    'tech_stack': ['Python', 'FastAPI', 'PostgreSQL'],
-                },
-                {
-                    'name': 'WordPress Plugin',
-                    'slug': 'wordpress-plugin',
-                    'description': 'WordPress integration plugin',
-                    'github_url': 'https://github.com/turnpiece/temphist_wordpress',
-                    'tech_stack': ['PHP', 'WordPress', 'JavaScript'],
-                }
-            ]
-        }
-    ]
+    # Convert PROJECTS_DATA to list format for the list view
+    projects = list(PROJECTS_DATA.values())
     
     # Filter by tech stack if specified
     if tech_slug:
@@ -109,79 +132,7 @@ def project_list_view(request, tech_slug=None):
 
 def project_detail_view(request, project_slug):
     """Show project overview with all repositories."""
-    projects = {
-        'temphist': {
-            'name': 'TempHist',
-            'description': 'Temperature visualization and analysis platform',
-            'logo_svg': 'assets/temphist-logo.svg',
-            'logo_png': 'assets/temphist-logo.png',
-            'overview': 'TempHist is a comprehensive platform for visualizing and analyzing historical temperature data. The project consists of multiple components working together to provide a complete solution.',
-            'repositories': [
-                {
-                    'name': 'Flutter App',
-                    'slug': 'app',
-                    'description': 'Cross-platform mobile and web application for temperature visualization',
-                    'github_url': 'https://github.com/turnpiece/temphist_app',
-                    'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_app/main/README.md',
-                    'tech_stack': ['Flutter', 'Dart', 'Graphic Package', 'Firebase'],
-                    'features': [
-                        'Horizontal bar chart visualization',
-                        'Historical temperature data display',
-                        'Cross-platform (iOS, Android, Web)',
-                        'Firebase backend integration'
-                    ],
-                    'screenshots': [
-                        {
-                            'src': 'assets/TempHist-iPhone-screenshot.png',
-                            'alt': 'TempHist main screen showing temperature chart',
-                            'caption': 'Main temperature visualization screen'
-                        }
-                    ]
-                },
-                {
-                    'name': 'Website',
-                    'slug': 'website',
-                    'description': 'Project website and documentation',
-                    'github_url': 'https://github.com/turnpiece/TempHist',
-                    'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist/main/README.md',
-                    'tech_stack': ['HTML', 'CSS', 'JavaScript'],
-                    'features': [
-                        'Project documentation',
-                        'API documentation',
-                        'User guides and tutorials'
-                    ]
-                },
-                {
-                    'name': 'API',
-                    'slug': 'api',
-                    'description': 'Backend API and data services',
-                    'github_url': 'https://github.com/turnpiece/TempHist-API',
-                    'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist-API/main/README.md',
-                    'tech_stack': ['Python', 'FastAPI', 'PostgreSQL'],
-                    'features': [
-                        'Temperature data endpoints',
-                        'Data processing and analysis',
-                        'Authentication and authorization'
-                    ]
-                }
-                # {
-                #     'name': 'WordPress Plugin',
-                #     'slug': 'wordpress-plugin',
-                #     'description': 'WordPress integration plugin',
-                #     'github_url': 'https://github.com/turnpiece/temphist_wordpress',
-                #     'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_wordpress/main/README.md',
-                #     'tech_stack': ['PHP', 'WordPress', 'JavaScript'],
-                #     'features': [
-                #         'WordPress widget integration',
-                #         'Temperature data display',
-                #         'Customizable charts and graphs'
-                #     ]
-                # }
-            ]
-        }
-    }
-    
-    project = projects.get(project_slug)
+    project = PROJECTS_DATA.get(project_slug)
     if not project:
         return render(request, "projects/404.html", status=404)
     
@@ -202,8 +153,8 @@ def repository_detail_view(request, project_slug, repo_slug):
                     'description': 'Cross-platform mobile and web application for temperature visualization',
                     'github_url': 'https://github.com/turnpiece/temphist_app',
                     'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_app/main/README.md',
-                    'logo_svg': 'assets/temphist-logo.svg',
-                    'logo_png': 'assets/temphist-logo.png',
+                    'logo_svg': '/static/assets/temphist-logo.svg',
+                    'logo_png': '/static/assets/temphist-logo.png',
                     'tech_stack': ['Flutter', 'Dart', 'Graphic Package', 'Firebase'],
                     'features': [
                         'Horizontal bar chart visualization',
@@ -213,7 +164,7 @@ def repository_detail_view(request, project_slug, repo_slug):
                     ],
                     'screenshots': [
                         {
-                            'src': 'assets/TempHist-iPhone-screenshot.png',
+                            'src': '/static/assets/TempHist-iPhone-screenshot.png',
                             'alt': 'TempHist main screen showing temperature chart',
                             'caption': 'Main temperature visualization screen'
                         }

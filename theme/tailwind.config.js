@@ -9,6 +9,18 @@ module.exports = {
     '../projects/templates/**/*.html',
     '../blog/templates/**/*.html',
   ],
+  safelist: [
+    'icon-apple',
+    'icon-android', 
+    'icon-api',
+    'icon-website',
+    'icon-database',
+    'icon-code',
+    'icon',
+    'icon-sm',
+    'icon-md',
+    'icon-lg',
+  ],
   theme: {
     extend: {},
   },

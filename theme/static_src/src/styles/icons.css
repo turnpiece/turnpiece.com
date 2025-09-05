@@ -1,8 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Custom icon styles */
+/* Icon definitions using CSS custom properties */
 .icon-apple::before {
   content: '';
   display: inline-block;
@@ -75,6 +71,7 @@
   margin-right: 0.75rem;
 }
 
+/* Icon utility classes */
 .icon {
   @apply text-gray-500;
 }
@@ -90,120 +87,3 @@
 .icon-lg {
   @apply w-5 h-5;
 }
-
-/* Home page animations and styling */
-@keyframes logo-rotate {
-  from {
-    transform: rotate(-5deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-@layer utilities {
-  .animate-logo-rotate {
-    animation: logo-rotate 1s ease-out forwards;
-  }
-  
-  /* Button styles */
-  .btn-primary {
-    @apply inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors;
-  }
-  
-  .btn-secondary {
-    @apply inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors;
-  }
-  
-  .btn-disabled {
-    @apply inline-flex items-center px-6 py-3 border border-gray-200 text-base font-medium rounded-md text-gray-400 bg-gray-50 cursor-not-allowed transition-colors;
-  }
-}
-
-@layer base {
-  section {
-    padding-top: 6rem !important;
-    padding-bottom: 6rem !important;
-  }
-}
-
-
-
-/* GitHub-like README styling */
-@layer components {
-  .github-readme {
-    @apply text-gray-900 leading-relaxed;
-  }
-  
-  .github-readme h1 {
-    @apply text-2xl font-semibold text-gray-900 mb-4 mt-0 pb-2 border-b border-gray-200;
-  }
-  
-  .github-readme h2 {
-    @apply text-xl font-semibold text-gray-900 mb-3 mt-8 pb-2 border-b border-gray-200;
-  }
-  
-  .github-readme h3 {
-    @apply text-lg font-semibold text-gray-900 mb-2 mt-6;
-  }
-  
-  .github-readme p {
-    @apply text-gray-900 mb-4 leading-7;
-  }
-  
-  .github-readme ul {
-    @apply list-disc list-inside mb-4 space-y-1;
-  }
-  
-  .github-readme ol {
-    @apply list-decimal list-inside mb-4 space-y-1;
-  }
-  
-  .github-readme li {
-    @apply text-gray-900 leading-7;
-  }
-  
-  .github-readme code {
-    @apply bg-gray-100 px-1 py-0.5 rounded text-sm font-mono text-gray-800;
-  }
-  
-  .github-readme pre {
-    @apply bg-gray-50 border border-gray-200 rounded-md p-4 mb-4 overflow-x-auto;
-  }
-  
-  .github-readme pre code {
-    @apply bg-transparent p-0 text-sm text-gray-900;
-  }
-  
-  .github-readme a {
-    @apply text-blue-600 hover:text-blue-800 underline;
-  }
-  
-  .github-readme strong {
-    @apply font-semibold text-gray-900;
-  }
-  
-  .github-readme em {
-    @apply italic text-gray-900;
-  }
-  
-  .github-readme hr {
-    @apply border-gray-300 my-8;
-  }
-  
-  .github-readme blockquote {
-    @apply border-l-4 border-gray-300 pl-4 py-2 my-4 text-gray-600 italic;
-  }
-  
-  .github-readme table {
-    @apply w-full border-collapse border border-gray-300 mb-4;
-  }
-  
-  .github-readme th {
-    @apply bg-gray-50 border border-gray-300 px-3 py-2 text-left font-semibold;
-  }
-  
-  .github-readme td {
-    @apply border border-gray-300 px-3 py-2;
-  }
-} 
