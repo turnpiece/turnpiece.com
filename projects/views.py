@@ -41,7 +41,7 @@ PROJECTS_DATA = {
                 'features': [
                     'Horizontal bar chart visualisation',
                     'Historical temperature data display',
-                    'Cross-platform (iOS, Android)',
+                    'Currently available on iOS',
                     'Firebase backend integration'
                 ],
                 'screenshot': '/static/assets/TempHist-iPhone-screenshot.png'
