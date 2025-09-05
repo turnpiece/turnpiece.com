@@ -17,6 +17,9 @@
             </div>
         {% endfor %}
         <button type="submit" class="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition">Send</button>
+        {% if error_message %}
+            <p class="mt-4 text-red-600">{{ error_message }}</p>
+        {% endif %}
         {% if submitted %}
             <p class="mt-4 text-green-600">Thank you for your message!</p>
         {% endif %}

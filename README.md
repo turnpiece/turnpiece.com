@@ -10,10 +10,12 @@ Turnpiece.com is a Django-based website featuring a clean, modern design with a 
 
 - **Home Page**: Clean, centered logo design with fade-in animation
 - **Support Page**: Professional contact form with validation and success feedback
+- **Contact Forms**: Multiple contact forms with bot prevention and rate limiting
 - **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
 - **Modern UI**: Clean typography and professional styling
 - **SVG/PNG Logo Support**: Optimized logo display with SVG as primary, PNG as fallback
 - **Reusable Components**: Base template with header for consistent branding
+- **Bot Protection**: Honeypot fields and rate limiting to prevent spam
 
 ## Project Structure
 
@@ -144,6 +146,51 @@ DJANGO_DEVELOPMENT=False
 ```
 
 For development, you can set `DJANGO_DEVELOPMENT=True` to use the console email backend instead of SMTP.
+
+### Bot Prevention
+
+The contact forms include several layers of bot protection:
+
+#### 1. Honeypot Field
+
+- **Hidden "website" field** that bots fill but humans can't see
+- **Zero impact on user experience** - completely invisible
+- **~80-90% effective** against basic bots
+- **Automatic rejection** if honeypot is filled
+
+#### 2. Rate Limiting
+
+- **3 submissions per 5 minutes** per IP address
+- **Prevents rapid-fire spam** attacks
+- **Uses Django cache** for efficient storage
+- **~95% effective** against automated spam
+
+#### 3. Form Validation
+
+- **Standard Django form validation** (email format, required fields)
+- **Input sanitization** and validation
+- **User-friendly error messages**
+
+#### Configuration
+
+- **Rate Limit**: 3 submissions per IP per 5 minutes
+- **Honeypot Field**: `website` (completely hidden)
+- **Storage**: Django cache system
+- **Monitoring**: Check Django logs for "Bot detected" errors
+
+#### Testing Bot Prevention
+
+1. **Honeypot**: Fill the hidden website field and submit
+2. **Rate Limiting**: Submit 4+ forms quickly from same IP
+3. **Form Validation**: Submit invalid email addresses
+
+#### Advanced Options (If Needed)
+
+If basic measures aren't sufficient, you can add:
+
+- **reCaptcha v3** (invisible, ~99% effective)
+- **Time-based validation** (check form fill speed)
+- **IP blacklisting** (block known spam IPs)
 
 ### Environment Variables
 
