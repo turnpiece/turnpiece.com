@@ -142,8 +142,8 @@ def project_detail_view(request, project_slug):
                     'name': 'Website',
                     'slug': 'website',
                     'description': 'Project website and documentation',
-                    'github_url': 'https://github.com/turnpiece/temphist_website',
-                    'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_website/main/README.md',
+                    'github_url': 'https://github.com/turnpiece/TempHist',
+                    'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist/main/README.md',
                     'tech_stack': ['HTML', 'CSS', 'JavaScript'],
                     'features': [
                         'Project documentation',
@@ -155,8 +155,8 @@ def project_detail_view(request, project_slug):
                     'name': 'API',
                     'slug': 'api',
                     'description': 'Backend API and data services',
-                    'github_url': 'https://github.com/turnpiece/temphist_api',
-                    'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_api/main/README.md',
+                    'github_url': 'https://github.com/turnpiece/TempHist-API',
+                    'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist-API/main/README.md',
                     'tech_stack': ['Python', 'FastAPI', 'PostgreSQL'],
                     'features': [
                         'Temperature data endpoints',

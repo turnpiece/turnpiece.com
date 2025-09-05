@@ -85,13 +85,22 @@ turnpiece.com/
    python manage.py migrate
    ```
 
-5. **Start the development server**
+5. **Build Tailwind CSS**
+
+   ```bash
+   cd theme
+   npm run build-css
+   cd ..
+   python manage.py collectstatic --noinput
+   ```
+
+6. **Start the development server**
 
    ```bash
    python manage.py runserver
    ```
 
-6. **Set up environment variables**
+7. **Set up environment variables**
 
    Copy the example environment file and configure your settings:
 
@@ -100,7 +109,7 @@ turnpiece.com/
    # Edit .env with your actual email addresses and SMTP settings
    ```
 
-7. **Visit the site**
+8. **Visit the site**
    - Home page: http://127.0.0.1:8000/
    - Support page: http://127.0.0.1:8000/support/
 
@@ -125,6 +134,29 @@ python manage.py migrate
 # Create a superuser (for admin access)
 python manage.py createsuperuser
 ```
+
+### Tailwind CSS Development
+
+The project uses Tailwind CSS for styling. After making changes to templates or Tailwind classes:
+
+```bash
+# Build Tailwind CSS (one-time)
+cd theme
+npm run build-css
+cd ..
+python manage.py collectstatic --noinput
+
+# Watch mode for development (rebuilds automatically)
+cd theme
+npm run build
+# Keep this running in a separate terminal while developing
+```
+
+**Important**: Always rebuild Tailwind CSS after:
+
+- Adding new Tailwind classes to templates
+- Modifying template files
+- Making changes to `tailwind.config.js`
 
 ## Configuration
 
