@@ -26,10 +26,10 @@ PROJECTS_DATA = {
         'slug': 'temphist',
         'name': 'TempHist',
         'description': 'Historical temperature visualisation and analysis platform',
-        'color': '#242456',  # Dark blue color
+        'colour': '#242456',  # Dark blue colour
         'logo_svg': 'assets/temphist-logo.svg',
         'logo_png': 'assets/temphist-logo.png',
-        'overview': 'TempHist is a platform for visualising and analysing historical temperature data. The project consists of multiple components working together to provide a complete solution.',
+        'overview': 'TempHist is a platform for visualising and analysing historical temperature data, compare the today\'s temperature with the temperatures on the same date and in the same location over the past 50 years. The project consists of an API that provides temperature data and analysis, a mobile app and a website that visualise the data.',
         'repositories': [
             {
                 'name': 'Flutter App',
@@ -39,13 +39,12 @@ PROJECTS_DATA = {
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_app/main/README.md',
                 'tech_stack': ['Flutter', 'Dart', 'Firebase'],
                 'features': [
-                    'Horizontal bar chart visualization',
+                    'Horizontal bar chart visualisation',
                     'Historical temperature data display',
-                    'Cross-platform (iOS, Android, Web)',
+                    'Cross-platform (iOS, Android)',
                     'Firebase backend integration'
                 ],
-                'screenshot': '/static/assets/TempHist-iPhone-screenshot.png',
-                'color': '#8B5CF6',  # Purple color for Flutter app
+                'screenshot': '/static/assets/TempHist-iPhone-screenshot.png'
             },
             {
                 'name': 'Website',
@@ -59,8 +58,7 @@ PROJECTS_DATA = {
                     'API documentation',
                     'User guides and tutorials'
                 ],
-                'screenshot': '/static/assets/TempHist-website-screenshot.png',
-                'color': '#F59E0B',  # Orange color for website
+                'screenshot': '/static/assets/TempHist-website-screenshot.png'
             },
             {
                 'name': 'API',
@@ -144,77 +142,21 @@ def project_detail_view(request, project_slug):
 
 def repository_detail_view(request, project_slug, repo_slug):
     """Show individual repository documentation."""
-    projects = {
-        'temphist': {
-            'name': 'TempHist',
-            'repositories': {
-                'app': {
-                    'name': 'Flutter App',
-                    'description': 'Cross-platform mobile and web application for temperature visualization',
-                    'github_url': 'https://github.com/turnpiece/temphist_app',
-                    'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_app/main/README.md',
-                    'logo_svg': '/static/assets/temphist-logo.svg',
-                    'logo_png': '/static/assets/temphist-logo.png',
-                    'tech_stack': ['Flutter', 'Dart', 'Graphic Package', 'Firebase'],
-                    'features': [
-                        'Horizontal bar chart visualization',
-                        'Historical temperature data display',
-                        'Cross-platform (iOS, Android, Web)',
-                        'Firebase backend integration'
-                    ],
-                    'screenshots': [
-                        {
-                            'src': '/static/assets/TempHist-iPhone-screenshot.png',
-                            'alt': 'TempHist main screen showing temperature chart',
-                            'caption': 'Main temperature visualization screen'
-                        }
-                    ]
-                },
-                'website': {
-                    'name': 'Website',
-                    'description': 'Project website and documentation',
-                    'github_url': 'https://github.com/turnpiece/temphist_website',
-                    'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_website/main/README.md',
-                    'tech_stack': ['HTML', 'CSS', 'JavaScript'],
-                    'features': [
-                        'Project documentation',
-                        'API documentation',
-                        'User guides and tutorials'
-                    ]
-                },
-                'api': {
-                    'name': 'API',
-                    'description': 'Backend API and data services',
-                    'github_url': 'https://github.com/turnpiece/temphist_api',
-                    'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_api/main/README.md',
-                    'tech_stack': ['Python', 'FastAPI', 'PostgreSQL'],
-                    'features': [
-                        'Temperature data endpoints',
-                        'Data processing and analysis',
-                        'Authentication and authorization'
-                    ]
-                }
-                # 'wordpress-plugin': {
-                #     'name': 'WordPress Plugin',
-                #     'description': 'WordPress integration plugin',
-                #     'github_url': 'https://github.com/turnpiece/temphist_wordpress',
-                #     'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_wordpress/main/README.md',
-                #     'tech_stack': ['PHP', 'WordPress', 'JavaScript'],
-                #     'features': [
-                #         'WordPress widget integration',
-                #         'Temperature data display',
-                #         'Customizable charts and graphs'
-                #     ]
-                # }
-            }
-        }
-    }
+    # Use the centralized PROJECTS_DATA as single source of truth
+    projects = PROJECTS_DATA
     
     project = projects.get(project_slug)
     if not project:
         return render(request, "projects/404.html", status=404)
     
-    repo_info = project['repositories'].get(repo_slug)
+    # Find the repository in the repositories list
+    repositories = project.get("repositories", [])
+    repo_info = None
+    for repo in repositories:
+        if repo.get("slug") == repo_slug:
+            repo_info = repo
+            break
+    
     if not repo_info:
         return render(request, "projects/404.html", status=404)
     

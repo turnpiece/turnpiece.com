@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.http import HttpResponse
 from .forms import ContactForm
+from projects.views import PROJECTS_DATA
 import requests
 import re
 import time
@@ -70,10 +71,14 @@ def home_view(request):
         send_contact_email(form_data, "Turnpiece.com contact message", settings.CONTACT_EMAIL)
         submitted = True
     
+    # Get project data from centralized source
+    project = PROJECTS_DATA.get('temphist')
+    
     return render(request, "core/home.html", {
         "form": form, 
         "submitted": submitted, 
-        "error_message": error_message
+        "error_message": error_message,
+        "project": project
     })
 
 def support_view(request):
@@ -106,31 +111,24 @@ def contact_view(request):
 
 def temphist_docs_view(request):
     """TempHist app documentation page."""
-    # Repository information with custom project details
-    repo_info = {
-        'name': 'TempHist',
-        'description': 'Flutter application for temperature visualization',
-        'github_url': 'https://github.com/turnpiece/temphist_app',
-        'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_app/main/README.md',
-        # Custom project information
-        'logo_svg': 'assets/temphist-logo.svg',  # SVG logo
-        'logo_png': 'assets/temphist-logo.png',  # PNG fallback
-        'screenshots': [
-            {
-                'src': 'assets/TempHist-iPhone-screenshot.png',
-                'alt': 'TempHist main screen showing temperature chart',
-                'caption': 'Main temperature visualization screen'
-            }
-        ],
-        'custom_description': 'TempHist is a Flutter application that visualizes historical average temperatures by year using horizontal bar charts. Built with the graphic package, it provides an intuitive way to explore temperature trends over time.',
-        'tech_stack': ['Flutter', 'Dart', 'Graphic Package', 'Firebase'],
-        'features': [
-            'Horizontal bar chart visualization',
-            'Historical temperature data display',
-            'Cross-platform (iOS, Android, Web)',
-            'Firebase backend integration'
-        ]
-    }
+    # Get repository information from centralized PROJECTS_DATA
+    project = PROJECTS_DATA.get('temphist')
+    if not project:
+        return render(request, "core/404.html", status=404)
+    
+    # Find the Flutter app repository
+    repositories = project.get("repositories", [])
+    repo_info = None
+    for repo in repositories:
+        if repo.get("slug") == "app":
+            repo_info = repo
+            break
+    
+    if not repo_info:
+        return render(request, "core/404.html", status=404)
+    
+    # Add custom description for this specific view
+    repo_info['custom_description'] = 'A Flutter application that visualises historical average temperatures by year using horizontal bar charts. It makes use of the TempHist API to fetch temperature data.'
     
     try:
         # Fetch README content from GitHub

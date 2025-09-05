@@ -55,15 +55,15 @@
                     
                     <!-- Content Section -->
                     <div class="lg:w-2/3 lg:ml-4">
-                        <div class="flex mb-4">
-                            <picture class="h-8">
-                                <source srcset="{% static 'assets/temphist-logo.svg' %}" type="image/svg+xml">
-                                <img src="{% static 'assets/temphist-logo.png' %}" alt="TempHist Logo" class="h-8">
+                        <div class="flex items-center mb-4">
+                            <picture class="h-8 mr-4">
+                                <source srcset="{% static project.logo_svg %}" type="image/svg+xml">
+                                <img src="{% static project.logo_png %}" alt="{{ project.name }} Logo" class="h-8">
                             </picture>
-                            <h3 class="text-2xl font-semibold text-gray-900">TempHist</h3>
+                            <h3 class="text-2xl font-semibold text-gray-900">{{ project.name }}</h3>
                         </div>
                         
-                        <p class="text-gray-600 mb-6">Temperature history. See how the temperature on today's date has changed in your location over the past 50 years. Is today warmer or cooler than average? How does it compare with the same date on previous years?</p>
+                        <p class="text-gray-600 mb-6">{{ project.description }}</p>
                         
                         <div class="mb-6">
                             <h4 class="text-sm font-medium text-gray-900 mb-3">Components:</h4>
@@ -82,7 +82,7 @@
                             </ul>
                         </div>
                         
-                        <a href="{% url 'project_detail' 'temphist' %}" 
+                        <a href="{% url 'project_detail' project.slug %}" 
                            class="btn-secondary">
                             View Project
                         </a>
