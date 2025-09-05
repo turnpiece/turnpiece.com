@@ -49,14 +49,12 @@ PROJECTS_DATA = {
             {
                 'name': 'Website',
                 'slug': 'website',
-                'description': 'Project website and documentation',
+                'description': 'Temperature history website',
                 'github_url': 'https://github.com/turnpiece/TempHist',
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist/main/README.md',
-                'tech_stack': ['HTML', 'CSS', 'JavaScript'],
+                'tech_stack': ['HTML', 'CSS', 'JavaScript', 'Firebase'],
                 'features': [
-                    'Project documentation',
-                    'API documentation',
-                    'User guides and tutorials'
+                    'Temperature history visualisation for your location',
                 ],
                 'screenshot': '/static/assets/TempHist-website-screenshot.png'
             },
@@ -66,7 +64,7 @@ PROJECTS_DATA = {
                 'description': 'Backend API and data services',
                 'github_url': 'https://github.com/turnpiece/TempHist-API',
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist-API/main/README.md',
-                'tech_stack': ['Python', 'FastAPI', 'PostgreSQL'],
+                'tech_stack': ['Python', 'FastAPI', 'Redis'],
                 'features': [
                     'Temperature data endpoints',
                     'Data processing and analysis',
@@ -106,16 +104,15 @@ def project_list_view(request, tech_slug=None):
         filtered_projects = []
         for project in projects:
             # Check if any repository in this project uses the tech
-            matching_repos = []
+            project_uses_tech = False
             for repo in project['repositories']:
                 if tech_name in repo.get('tech_stack', []):
-                    matching_repos.append(repo)
+                    project_uses_tech = True
+                    break
             
-            if matching_repos:
-                # Create a copy of the project with only matching repositories
-                filtered_project = project.copy()
-                filtered_project['repositories'] = matching_repos
-                filtered_projects.append(filtered_project)
+            if project_uses_tech:
+                # Include the complete project with all repositories
+                filtered_projects.append(project)
         
         projects = filtered_projects
         context = {

@@ -4,7 +4,7 @@
 {% block title %}Projects{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto px-4 py-8">
+<div class="max-w-4xl mx-auto px-4 py-8">
     <div class="mb-8 text-center">
         <h1 class="text-4xl font-bold text-gray-900 mb-4">
             {% if filtered_tech %}
@@ -15,11 +15,104 @@
         </h1>
         <p class="text-lg text-gray-600">
             {% if filtered_tech %}
-            Showing projects and components that use {{ filtered_tech }}
+            Showing projects that use {{ filtered_tech }}
             {% else %}
             Explore my open source projects and their components
             {% endif %}
         </p>
+    </div>
+    
+    <div class="space-y-8">
+        {% for project in projects %}
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 hover:shadow-md transition-shadow">
+            <div class="flex flex-col lg:flex-row">
+                <!-- Screenshot Section -->
+                <div class="lg:w-1/3 flex-shrink-0 lg:mr-8">
+                    {% with project.repositories|first as first_repo %}
+                        {% if first_repo.screenshot %}
+                        <div class="flex items-center justify-center h-96 rounded-lg p-2" style="background-color: {{ project.colour|default:'#F3F4F6' }};">
+                            <img src="{{ first_repo.screenshot }}" 
+                                 alt="{{ first_repo.name }} screenshot" 
+                                 class="max-h-96 max-w-full object-contain rounded-lg">
+                        </div>
+                        {% elif first_repo.logo %}
+                        <div class="flex items-center justify-center h-96 rounded-lg border border-gray-200 p-4" 
+                             style="background-color: {{ project.colour|default:'#F3F4F6' }};">
+                            <img src="{{ first_repo.logo }}" 
+                                 alt="{{ first_repo.name }} logo" 
+                                 class="h-24 w-auto object-none">
+                        </div>
+                        {% else %}
+                        <div class="flex items-center justify-center h-96 rounded-lg border border-gray-200 p-4 bg-gray-50">
+                            <div class="text-center text-gray-500">
+                                <svg class="w-16 h-16 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                </svg>
+                                <p class="text-sm">No image available</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                
+                <!-- Content Section -->
+                <div class="lg:w-2/3 lg:ml-4">
+                    <div class="flex items-center mb-4">
+                        {% if project.logo_svg or project.logo_png %}
+                        <picture class="h-8 mr-4">
+                            {% if project.logo_svg %}
+                            <source srcset="{% static project.logo_svg %}" type="image/svg+xml">
+                            {% endif %}
+                            {% if project.logo_png %}
+                            <img src="{% static project.logo_png %}" alt="{{ project.name }} Logo" class="h-8">
+                            {% endif %}
+                        </picture>
+                        {% endif %}
+                        <h2 class="text-2xl font-semibold text-gray-900">{{ project.name }}</h2>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6">{{ project.description }}</p>
+                    
+                    <div class="mb-6">
+                        <h4 class="text-sm font-medium text-gray-900 mb-3">Components:</h4>
+                        <ul class="space-y-3">
+                            {% for repo in project.repositories %}
+                            <li class="text-sm text-gray-600">
+                                {% if repo.name == 'Flutter App' or repo.name == 'iOS App' %}
+                                    <span class="icon-apple icon">{{ repo.name }}</span>
+                                {% elif repo.name == 'API' %}
+                                    <span class="icon-api icon">{{ repo.name }}</span>
+                                {% elif repo.name == 'Website' %}
+                                    {% if repo.github_url %}
+                                    <a href="{{ repo.github_url }}" target="_blank" class="icon-website icon underline hover:no-underline">{{ repo.name }}</a>
+                                    {% else %}
+                                    <span class="icon-website icon">{{ repo.name }}</span>
+                                    {% endif %}
+                                {% elif repo.name == 'Android App' %}
+                                    <span class="icon-android icon">{{ repo.name }}</span>
+                                {% elif repo.name == 'Database' %}
+                                    <span class="icon-database icon">{{ repo.name }}</span>
+                                {% elif 'Code' in repo.name or 'Library' in repo.name %}
+                                    <span class="icon-code icon">{{ repo.name }}</span>
+                                {% else %}
+                                    {{ repo.name }}
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    <a href="{% url 'project_detail' project.slug %}" 
+                       class="btn-secondary">
+                        View Project
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mb-16 text-center">
         {% if filtered_tech %}
         <div class="mt-4">
             <a href="{% url 'project_list' %}" 
@@ -28,43 +121,6 @@
             </a>
         </div>
         {% endif %}
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {% for project in projects %}
-        <a href="{% url 'project_detail' project.slug %}" class="block">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer">
-                <div class="flex items-center mb-4">
-                    {% if project.logo_svg or project.logo_png %}
-                    <picture class="h-8 -ml-2 mr-3">
-                        {% if project.logo_svg %}
-                        <source srcset="{% static project.logo_svg %}" type="image/svg+xml">
-                        {% endif %}
-                        {% if project.logo_png %}
-                        <img src="{% static project.logo_png %}" alt="{{ project.name }} Logo" class="h-8">
-                        {% endif %}
-                    </picture>
-                    {% endif %}
-                    <h2 class="text-xl font-semibold text-gray-900">{{ project.name }}</h2>
-                </div>
-                
-                <p class="text-gray-600 mb-4">{{ project.description }}</p>
-                
-                <div class="mb-4">
-                    <h3 class="text-sm font-medium text-gray-900 mb-2">Components:</h3>
-                    <div class="space-y-1">
-                        {% for repo in project.repositories %}
-                        <div class="text-sm text-gray-600">{{ repo.name }}</div>
-                        {% endfor %}
-                    </div>
-                </div>
-                
-                <div class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                    View Project
-                </div>
-            </div>
-        </a>
-        {% endfor %}
     </div>
 </div>
 {% endblock %} 

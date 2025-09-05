@@ -68,17 +68,29 @@
                         <div class="mb-6">
                             <h4 class="text-sm font-medium text-gray-900 mb-3">Components:</h4>
                             <ul class="space-y-3">
-                                <li class="text-sm text-gray-600 icon-apple icon">
-                                    iOS App
-                                </li>
-                                <li class="text-sm text-gray-600 icon-api icon">
-                                    API
-                                </li>
+                                {% for repo in project.repositories %}
                                 <li class="text-sm text-gray-600">
-                                    <a href="https://temphist.com" target="_blank" class="icon-website icon underline hover:no-underline">
-                                        Website
-                                    </a>
+                                    {% if repo.name == 'Flutter App' or repo.name == 'iOS App' %}
+                                        <span class="icon-apple icon">{{ repo.name }}</span>
+                                    {% elif repo.name == 'API' %}
+                                        <span class="icon-api icon">{{ repo.name }}</span>
+                                    {% elif repo.name == 'Website' %}
+                                        {% if repo.github_url %}
+                                        <a href="{{ repo.github_url }}" target="_blank" class="icon-website icon underline hover:no-underline">{{ repo.name }}</a>
+                                        {% else %}
+                                        <span class="icon-website icon">{{ repo.name }}</span>
+                                        {% endif %}
+                                    {% elif repo.name == 'Android App' %}
+                                        <span class="icon-android icon">{{ repo.name }}</span>
+                                    {% elif repo.name == 'Database' %}
+                                        <span class="icon-database icon">{{ repo.name }}</span>
+                                    {% elif 'Code' in repo.name or 'Library' in repo.name %}
+                                        <span class="icon-code icon">{{ repo.name }}</span>
+                                    {% else %}
+                                        {{ repo.name }}
+                                    {% endif %}
                                 </li>
+                                {% endfor %}
                             </ul>
                         </div>
                         
