@@ -34,7 +34,7 @@ PROJECTS_DATA = {
             {
                 'name': 'Flutter App',
                 'slug': 'app',
-                'description': 'Mobile and web application for temperature visualisation',
+                'description': 'Mobile app for historical temperature visualisation',
                 'github_url': 'https://github.com/turnpiece/temphist_app',
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_app/main/README.md',
                 'tech_stack': ['Flutter', 'Dart', 'Firebase'],
