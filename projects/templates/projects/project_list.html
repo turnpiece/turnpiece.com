@@ -70,13 +70,13 @@
                         <ul class="space-y-3">
                             {% for repo in project.repositories %}
                             <li class="text-sm text-gray-600">
-                                {% if repo.name == 'Flutter App' or repo.name == 'iOS App' %}
+                                {% if repo.slug == 'app' %}
                                     <span class="icon-apple icon">{{ repo.name }}</span>
-                                {% elif repo.name == 'API' %}
+                                {% elif repo.slug == 'api' %}
                                     <span class="icon-api icon">{{ repo.name }}</span>
-                                {% elif repo.name == 'Website' %}
-                                    {% if repo.github_url %}
-                                    <a href="{{ repo.github_url }}" target="_blank" class="icon-website icon underline hover:no-underline">{{ repo.name }}</a>
+                                {% elif repo.slug == 'website' %}
+                                    {% if repo.url %}
+                                    <a href="{{ repo.url }}" target="_blank" class="icon-website icon underline hover:no-underline">{{ repo.name }}</a>
                                     {% else %}
                                     <span class="icon-website icon">{{ repo.name }}</span>
                                     {% endif %}

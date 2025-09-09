@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.conf import settings
 from django.core.cache import cache
 from django.http import HttpResponse
@@ -12,13 +12,14 @@ import time
 
 def send_contact_email(form_data, subject_prefix, recipient_email):
     """Helper function to send contact form emails."""
-    send_mail(
+    email = EmailMessage(
         subject=f"{subject_prefix} from {form_data['name']}",
-        message=f"Name: {form_data['name']}\nEmail: {form_data['email']}\n\nMessage:\n{form_data['message']}",
+        body=f"Name: {form_data['name']}\nEmail: {form_data['email']}\n\nMessage:\n{form_data['message']}",
         from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[recipient_email],
-        extra_headers={'Reply-To': form_data['email']},
+        to=[recipient_email],
+        reply_to=[form_data['email']],
     )
+    email.send()
 
 
 def check_rate_limit(request, limit=3, window=300):

@@ -32,9 +32,9 @@ PROJECTS_DATA = {
         'overview': 'TempHist is a platform for visualising and analysing historical temperature data, compare the today\'s temperature with the temperatures on the same date and in the same location over the past 50 years. The project consists of an API that provides temperature data and analysis, along with a mobile app and a website that visualise the data.',
         'repositories': [
             {
-                'name': 'Flutter App',
+                'name': 'Mobile App',
                 'slug': 'app',
-                'description': 'Mobile app for historical temperature visualisation',
+                'description': 'App for historical temperature visualisation',
                 'github_url': 'https://github.com/turnpiece/temphist_app',
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_app/main/README.md',
                 'tech_stack': ['Flutter', 'Dart', 'Firebase'],
@@ -49,6 +49,7 @@ PROJECTS_DATA = {
             {
                 'name': 'Website',
                 'slug': 'website',
+                'url': 'https://temphist.org',
                 'description': 'Temperature history website',
                 'github_url': 'https://github.com/turnpiece/TempHist',
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist/main/README.md',
@@ -84,12 +85,17 @@ PROJECTS_DATA = {
         'overview': 'Citizens\' Climate Lobby UK is a non-profit organisation that advocates for a price on carbon pollution.',
         'repositories': [
             {
-                'name': 'CCL UK',
-                'slug': 'ccluk',
-                'description': 'Theme for a WordPress website',
+                'name': 'Website',
+                'slug': 'website',
+                'url': 'https://citizensclimatelobby.uk',
+                'description': 'WordPress website with a custom theme.',
                 'github_url': 'https://github.com/turnpiece/ccluk',
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/ccluk/master/README.md',
                 'tech_stack': ['WordPress', 'PHP', 'CSS', 'JavaScript'],
+                'features': [
+                    'Responsive theme supporting Gutenberg blocks',
+                    'A home page banner letting site managers promote any page or article on the site'
+                ],
                 'screenshot': '/static/assets/ccluk-screenshot.png',
                 'logo': '/static/assets/ccluk-logo.png',
             }
