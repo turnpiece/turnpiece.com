@@ -779,10 +779,6 @@ section {
   margin-right: auto;
 }
 
-.-ml-2 {
-  margin-left: -0.5rem;
-}
-
 .-ml-2\.5 {
   margin-left: -0.625rem;
 }
@@ -821,10 +817,6 @@ section {
 
 .mr-2 {
   margin-right: 0.5rem;
-}
-
-.mr-3 {
-  margin-right: 0.75rem;
 }
 
 .mr-4 {
@@ -915,6 +907,10 @@ section {
   height: auto;
 }
 
+.h-full {
+  height: 100%;
+}
+
 .max-h-96 {
   max-height: 24rem;
 }
@@ -929,6 +925,10 @@ section {
 
 .w-12 {
   width: 3rem;
+}
+
+.w-16 {
+  width: 4rem;
 }
 
 .w-4 {
@@ -947,16 +947,8 @@ section {
   width: 100%;
 }
 
-.w-16 {
-  width: 4rem;
-}
-
 .max-w-2xl {
   max-width: 42rem;
-}
-
-.max-w-3xl {
-  max-width: 48rem;
 }
 
 .max-w-4xl {
@@ -981,10 +973,6 @@ section {
 
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.cursor-pointer {
-  cursor: pointer;
 }
 
 .list-inside {
@@ -1051,6 +1039,12 @@ section {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
+}
+
+.space-y-16 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(4rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(4rem * var(--tw-space-y-reverse));
 }
 
 .space-y-3 > :not([hidden]) ~ :not([hidden]) {
@@ -1700,10 +1694,6 @@ section {
 
   .lg\:w-2\/3 {
     width: 66.666667%;
-  }
-
-  .lg\:grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .lg\:flex-row {

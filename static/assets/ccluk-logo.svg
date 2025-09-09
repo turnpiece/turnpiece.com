@@ -1,0 +1,21 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer green arc - C shape rotated 45 degrees clockwise -->
+  <path d="M 76 24 A 60 60 0 0 0 176 124" 
+        fill="none" 
+        stroke="#8BC34A" 
+        stroke-width="16" 
+        stroke-linecap="butt"/>
+  
+  <!-- Inner blue arc - C shape rotated 45 degrees clockwise, with smaller gap -->
+  <path d="M 95 43 A 40 40 0 0 0 157 105" 
+        fill="none" 
+        stroke="#2196F3" 
+        stroke-width="16" 
+        stroke-linecap="butt"/>
+  
+  <!-- Gray L shape - positioned correctly -->
+  <g transform="translate(115, 80)">
+    <rect x="-8" y="-28" width="16" height="28" fill="#555555"/>
+    <rect x="-8" y="0" width="40" height="16" fill="#555555"/>
+  </g>
+</svg>

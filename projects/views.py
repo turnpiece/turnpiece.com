@@ -78,7 +78,7 @@ PROJECTS_DATA = {
         'slug': 'ccluk',
         'name': 'Citizens\' Climate Lobby UK',
         'description': 'Theme for a WordPress website',
-        'colour': '#54ae68',  # Green colour
+        #'colour': '#54ae68',  # Green colour
         'logo_svg': 'assets/ccluk-logo.svg',
         'logo_png': 'assets/ccluk-logo.png',
         'overview': 'Citizens\' Climate Lobby UK is a non-profit organisation that advocates for a price on carbon pollution.',

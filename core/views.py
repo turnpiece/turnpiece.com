@@ -17,7 +17,7 @@ def send_contact_email(form_data, subject_prefix, recipient_email):
         message=f"Name: {form_data['name']}\nEmail: {form_data['email']}\n\nMessage:\n{form_data['message']}",
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=[recipient_email],
-        reply_to=[form_data['email']],
+        extra_headers={'Reply-To': form_data['email']},
     )
 
 
@@ -71,14 +71,14 @@ def home_view(request):
         send_contact_email(form_data, "Turnpiece.com contact message", settings.CONTACT_EMAIL)
         submitted = True
     
-    # Get project data from centralized source
-    project = PROJECTS_DATA.get('temphist')
+    # Get all projects from centralized source
+    projects = list(PROJECTS_DATA.values())
     
     return render(request, "core/home.html", {
         "form": form, 
         "submitted": submitted, 
         "error_message": error_message,
-        "project": project
+        "projects": projects
     })
 
 def support_view(request):
