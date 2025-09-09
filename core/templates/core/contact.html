@@ -3,26 +3,5 @@
 {% block title %}Contact - Turnpiece{% endblock %}
 
 {% block content %}
-<div class="flex justify-center items-center min-h-[70vh]">
-    <form method="post" class="bg-white p-8 rounded shadow-md w-full max-w-md border border-black">
-        {% csrf_token %}
-        <h2 class="text-2xl font-bold mb-6 text-black">Contact Support</h2>
-        {% for field in form %}
-            <div class="mb-4">
-                <label class="block text-black font-semibold mb-1" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                {{ field }}
-                {% if field.errors %}
-                    <p class="text-red-500 text-xs mt-1">{{ field.errors|striptags }}</p>
-                {% endif %}
-            </div>
-        {% endfor %}
-        <button type="submit" class="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition">Send</button>
-        {% if error_message %}
-            <p class="mt-4 text-red-600">{{ error_message }}</p>
-        {% endif %}
-        {% if submitted %}
-            <p class="mt-4 text-green-600">Thank you for your message!</p>
-        {% endif %}
-    </form>
-</div>
+{% include 'core/contact_form.html' with form_title="Contact Support" %}
 {% endblock %} 

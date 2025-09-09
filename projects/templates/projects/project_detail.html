@@ -39,27 +39,7 @@
                 <div class="flex flex-col lg:flex-row gap-6">
                     <!-- Image/Logo Section -->
                     <div class="lg:w-1/3 flex-shrink-0">
-                        {% if repo.screenshot %}
-                        <a href="{% url 'repository_detail' repo.project_slug repo.slug %}"><img src="{{ repo.screenshot }}" 
-                             alt="{{ repo.name }} screenshot" 
-                             class="w-full h-48 object-cover rounded-lg border border-gray-200"></a>
-                        {% elif repo.logo %}
-                        <div class="flex items-start justify-center h-48 rounded-lg border border-gray-200 p-4" 
-{% if project.colour %} style="background-color: {{ project.colour }};"{% endif %}>
-                             <a href="{% url 'repository_detail' repo.project_slug repo.slug %}"><img src="{{ repo.logo }}" 
-                                 alt="{{ repo.name }} logo" 
-                                 class="h-24 w-auto object-none"></a>
-                        </div>
-                        {% else %}
-                        <div class="flex items-start justify-center h-48 bg-gray-50 rounded-lg border border-gray-200">
-                            <div class="text-gray-400 text-center">
-                                <svg class="w-12 h-12 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
-                                </svg>
-                                <p class="text-sm">No image available</p>
-                            </div>
-                        </div>
-                        {% endif %}
+                        {% include 'core/project_image.html' with repo=repo project=project container_height='h-48' %}
                     </div>
                     
                     <!-- Content Section -->

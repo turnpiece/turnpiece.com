@@ -22,28 +22,7 @@
                 <!-- Screenshot Section -->
                 <div class="lg:w-1/3 flex-shrink-0 lg:mr-8">
                     {% with project.repositories|first as first_repo %}
-                        {% if first_repo.screenshot %}
-                        <div class="flex items-start justify-center h-96 rounded-lg p-2"{% if project.colour %} style="background-color: {{ project.colour }};"{% endif %}>
-                            <img src="{{ first_repo.screenshot }}" 
-                                 alt="{{ first_repo.name }} screenshot" 
-                                 class="max-h-96 max-w-full object-contain rounded-lg">
-                        </div>
-                        {% elif first_repo.logo %}
-                        <div class="flex items-start justify-center h-96 rounded-lg border border-gray-200 p-4"{% if project.colour %} style="background-color: {{ project.colour }};"{% endif %}>
-                            <img src="{{ first_repo.logo }}" 
-                                 alt="{{ first_repo.name }} logo" 
-                                 class="h-24 w-auto object-none">
-                        </div>
-                        {% else %}
-                        <div class="flex items-start justify-center h-96 rounded-lg border border-gray-200 p-4 bg-gray-50">
-                            <div class="text-center text-gray-500">
-                                <svg class="w-16 h-16 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
-                                </svg>
-                                <p class="text-sm">No image available</p>
-                            </div>
-                        </div>
-                        {% endif %}
+                        {% include 'core/project_image.html' with repo=first_repo project=project %}
                     {% endwith %}
                 </div>
                 
@@ -70,25 +49,7 @@
                             <ul class="space-y-3">
                                 {% for repo in project.repositories %}
                                 <li class="text-sm text-gray-600">
-                                    {% if repo.slug == 'app' %}
-                                        <span class="icon-apple icon">{{ repo.name }}</span>
-                                    {% elif repo.slug == 'api' %}
-                                        <span class="icon-api icon">{{ repo.name }}</span>
-                                    {% elif repo.slug == 'website' %}
-                                        {% if repo.url %}
-                                        <a href="{{ repo.url }}" target="_blank" class="icon-website icon underline hover:no-underline">{{ repo.name }}</a>
-                                        {% else %}
-                                        <span class="icon-website icon">{{ repo.name }}</span>
-                                        {% endif %}
-                                    {% elif repo.name == 'Android App' %}
-                                        <span class="icon-android icon">{{ repo.name }}</span>
-                                    {% elif repo.name == 'Database' %}
-                                        <span class="icon-database icon">{{ repo.name }}</span>
-                                    {% elif 'Code' in repo.name or 'Library' in repo.name %}
-                                        <span class="icon-code icon">{{ repo.name }}</span>
-                                    {% else %}
-                                        {{ repo.name }}
-                                    {% endif %}
+                                    {% include 'core/component_icon.html' %}
                                 </li>
                                 {% endfor %}
                             </ul>
