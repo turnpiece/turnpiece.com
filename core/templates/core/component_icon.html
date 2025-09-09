@@ -1,0 +1,19 @@
+{% if repo.slug == 'app' %}
+    <span class="icon-apple icon">{{ repo.name }}</span>
+{% elif repo.slug == 'api' %}
+    <span class="icon-api icon">{{ repo.name }}</span>
+{% elif repo.slug == 'website' %}
+    {% if repo.url %}
+    <a href="{{ repo.url }}" target="_blank" class="icon-website icon underline hover:no-underline">{{ repo.name }}</a>
+    {% else %}
+    <span class="icon-website icon">{{ repo.name }}</span>
+    {% endif %}
+{% elif repo.name == 'Android App' %}
+    <span class="icon-android icon">{{ repo.name }}</span>
+{% elif repo.name == 'Database' %}
+    <span class="icon-database icon">{{ repo.name }}</span>
+{% elif 'Code' in repo.name or 'Library' in repo.name %}
+    <span class="icon-code icon">{{ repo.name }}</span>
+{% else %}
+    {{ repo.name }}
+{% endif %}
