@@ -55,9 +55,36 @@ turnpiece.com/
 ### Prerequisites
 
 - Python 3.8 or higher
-- pip (Python package installer)
+- Node.js 18 or higher (for Tailwind CSS)
 
-### Installation
+### Quick start
+
+A startup script handles the full setup automatically:
+
+```bash
+./start.sh
+```
+
+This will:
+
+1. Create (or repair) the Python virtual environment
+2. Install Python dependencies from `requirements.txt`
+3. Copy `env.example` → `.env` if no `.env` exists
+4. Build Tailwind CSS and collect static files
+5. Run database migrations
+6. Start the development server at <http://127.0.0.1:8000/>
+
+To use a different port:
+
+```bash
+PORT=8001 ./start.sh
+```
+
+> **Note:** After the first run, edit `.env` with your email/SMTP settings if you need the contact forms to send mail.
+
+### Manual installation
+
+If you prefer to set up manually:
 
 1. **Clone the repository**
 
@@ -76,37 +103,36 @@ turnpiece.com/
 3. **Install dependencies**
 
    ```bash
-   pip install django
+   pip install -r requirements.txt
    ```
 
-4. **Run database migrations**
+4. **Set up environment variables**
+
+   ```bash
+   cp env.example .env
+   # Edit .env with your actual email addresses and SMTP settings
+   ```
+
+5. **Run database migrations**
 
    ```bash
    python manage.py migrate
    ```
 
-5. **Build Tailwind CSS**
+6. **Build Tailwind CSS**
 
    ```bash
    cd theme
+   npm install
    npm run build-css
    cd ..
    python manage.py collectstatic --noinput
    ```
 
-6. **Start the development server**
+7. **Start the development server**
 
    ```bash
    python manage.py runserver
-   ```
-
-7. **Set up environment variables**
-
-   Copy the example environment file and configure your settings:
-
-   ```bash
-   cp env.example .env
-   # Edit .env with your actual email addresses and SMTP settings
    ```
 
 8. **Visit the site**

@@ -191,6 +191,7 @@ yarn-error.log*
 
 # Tailwind CSS
 theme/static/css/dist/
+theme/static/css/output.css
 theme/static_src/src/styles/output.css
 
 # OS generated files
@@ -205,6 +206,7 @@ Thumbs.db
 # IDE files
 .vscode/
 .idea/
+.claude/settings.local.json
 *.swp
 *.swo
 *~
