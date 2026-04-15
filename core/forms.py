@@ -1,20 +1,16 @@
 from django import forms
 
 class ContactForm(forms.Form):
+    INPUT_CLASSES = 'w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-gray-500'
+
     name = forms.CharField(
-        widget=forms.TextInput(attrs={
-            'class': 'w-full p-2 rounded bg-gray-100 border border-black focus:bg-white focus:outline-none'
-        })
+        widget=forms.TextInput(attrs={'class': INPUT_CLASSES})
     )
     email = forms.EmailField(
-        widget=forms.EmailInput(attrs={
-            'class': 'w-full p-2 rounded bg-gray-100 border border-black focus:bg-white focus:outline-none'
-        })
+        widget=forms.EmailInput(attrs={'class': INPUT_CLASSES})
     )
     message = forms.CharField(
-        widget=forms.Textarea(attrs={
-            'class': 'w-full p-2 rounded bg-gray-100 border border-black focus:bg-white focus:outline-none'
-        })
+        widget=forms.Textarea(attrs={'class': INPUT_CLASSES})
     )
     
     # Honeypot field - hidden from users but visible to bots
