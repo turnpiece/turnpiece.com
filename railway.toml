@@ -2,8 +2,7 @@
 builder = "dockerfile"
 
 [deploy]
-preDeployCommand = "python manage.py migrate"
-startCommand = "python -m http.server $PORT"
+startCommand = "python -m http.server 8000"
 healthcheckPath = "/"
 healthcheckTimeout = 100
 restartPolicyType = "on_failure"
