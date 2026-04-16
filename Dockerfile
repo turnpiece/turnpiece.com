@@ -13,13 +13,15 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Build Tailwind CSS
+# Install Node dependencies (separate layer for caching)
 COPY theme/package.json theme/package-lock.json* ./theme/
-COPY theme/static_src ./theme/static_src/
-RUN cd theme && npm install && npm run build-css
+RUN cd theme && npm install
 
-# Copy application code
+# Copy all application code (templates must exist before Tailwind scans content)
 COPY . .
+
+# Build Tailwind CSS (scans templates for used classes)
+RUN cd theme && npm run build-css
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
