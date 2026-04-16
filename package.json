@@ -1,6 +1,6 @@
 {
   "name": "turnpiece-website",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Turnpiece.com Django website",
   "scripts": {
     "build": "cd theme && npm install && npm run build-css",
@@ -13,4 +13,4 @@
   "engines": {
     "node": ">=18.0.0"
   }
-} 
+}
