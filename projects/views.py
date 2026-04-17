@@ -37,7 +37,7 @@ PROJECTS_DATA = {
         'overview': 'TempHist is a platform for visualising and analysing historical temperature data, compare the today\'s temperature with the temperatures on the same date and in the same location over the past 50 years. The project consists of an API that provides temperature data and analysis, along with a mobile app and a website that visualise the data.',
         'repositories': [
             {
-                'name': 'Mobile App',
+                'name': 'Mobile app',
                 'slug': 'app',
                 'description': 'iOS app for exploring historical temperature data',
                 'github_url': 'https://github.com/turnpiece/temphist_app',

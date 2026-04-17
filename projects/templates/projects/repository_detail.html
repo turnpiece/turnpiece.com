@@ -50,9 +50,10 @@
             <h3 class="text-lg font-semibold text-gray-900 mb-3">Website</h3>
             {% endif %}
             {% if repo_info.screenshot %}
-            <a href="{{ repo_info.url }}" target="_blank" rel="noopener noreferrer">
+            <a href="{{ repo_info.url }}" target="_blank" rel="noopener noreferrer"
+               class="block w-fit mx-auto rounded-lg border border-gray-200 hover:border-gray-900 transition-colors">
                 <img src="{% static repo_info.screenshot %}" alt="{{ repo_info.name }} screenshot"
-                     class="max-h-[400px] w-auto mx-auto rounded-lg border border-gray-200 hover:opacity-90 transition-opacity">
+                     class="max-h-[400px] w-auto rounded-lg">
             </a>
             {% endif %}
             {% if repo_info.url %}
@@ -66,7 +67,7 @@
 
         {% if repo_info.tech_stack %}
         <div class="mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">Tech Stack</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Tech stack</h3>
             <div class="flex flex-wrap gap-2">
                 {% for tech in repo_info.tech_stack %}
                 <a href="{% url 'project_list_by_tech' tech|lower|slugify %}"
@@ -80,7 +81,7 @@
 
         {% if repo_info.features %}
         <div class="mb-6">
-            <h3 class="text-lg font-semibold text-gray-900 mb-2">Key Features</h3>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Key features</h3>
             <ul class="list-disc list-inside space-y-1 text-gray-700">
                 {% for feature in repo_info.features %}
                 <li>{{ feature }}</li>
