@@ -11,7 +11,7 @@ module.exports = {
   ],
   safelist: [
     'icon-apple',
-    'icon-android', 
+    'icon-android',
     'icon-api',
     'icon-website',
     'icon-database',
@@ -20,6 +20,9 @@ module.exports = {
     'icon-sm',
     'icon-md',
     'icon-lg',
+    'hidden',
+    'sm:block',
+    'sm:-ml-2.5',
   ],
   theme: {
     extend: {},
