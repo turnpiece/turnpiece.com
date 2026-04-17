@@ -74,7 +74,7 @@ PROJECTS_DATA = {
                     'Social sharing of temperature snapshots',
                     'Responsive design for mobile and desktop',
                 ],
-                'screenshot': '/static/assets/TempHist-website-screenshot.png',
+                'screenshot': 'assets/TempHist-website-screenshot.png',
             },
             {
                 'name': 'API',
@@ -92,7 +92,7 @@ PROJECTS_DATA = {
                     'Authentication and rate limiting',
                     'OpenAPI/Swagger documentation',
                 ],
-                'logo': '/static/assets/temphist-logo.png'
+                'logo': 'assets/temphist-logo.png'
             }
         ]
     },
@@ -113,7 +113,7 @@ PROJECTS_DATA = {
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/turnpiece.com/main/README.md',
                 'api_url': 'https://api.github.com/repos/turnpiece/turnpiece.com',
                 'tech_stack': ['Python', 'Django', 'Tailwind CSS', 'PostgreSQL'],
-                'screenshot': '/static/assets/turnpiece-com-homepage-screenshot.png',
+                'screenshot': 'assets/turnpiece-com-homepage-screenshot.png',
                 'custom_description': 'Built with Django and Tailwind CSS, this site pulls live README content and last-updated dates directly from GitHub via the public API. Projects, tech stacks and features are defined in a single Python data structure — no database needed for content.',
                 'features': [
                     'Live README documentation pulled from GitHub on each visit',

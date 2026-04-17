@@ -1,10 +1,11 @@
+{% load static %}
 {% if repo.screenshot or repo.screenshots %}
 <div class="rounded-lg p-2">
     <a href="{% url 'repository_detail' repo.project_slug repo.slug %}">
         {% if repo.screenshot %}
-        <img src="{{ repo.screenshot }}"
+        <img src="{% static repo.screenshot %}"
         {% else %}
-        <img src="{{ repo.screenshots.0.src }}"
+        <img src="{% static repo.screenshots.0.src %}"
         {% endif %}
              alt="{{ repo.name }} screenshot"
              class="max-h-[400px] w-auto mx-auto rounded-lg hover:opacity-90 transition-opacity">
@@ -12,8 +13,8 @@
 </div>
 {% elif repo.logo %}
 <div class="flex items-start justify-center {{ container_height|default:'h-96' }} rounded-lg border border-gray-200 p-4"{% if project.colour %} style="background-color: {{ project.colour }};"{% endif %}>
-    <img src="{{ repo.logo }}" 
-         alt="{{ repo.name }} logo" 
+    <img src="{% static repo.logo %}"
+         alt="{{ repo.name }} logo"
          class="h-24 w-auto object-none">
 </div>
 {% else %}
