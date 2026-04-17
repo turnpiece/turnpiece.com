@@ -123,32 +123,6 @@ PROJECTS_DATA = {
                 ],
             }
         ]
-    },
-    'ccluk': {
-        'slug': 'ccluk',
-        'name': 'Citizens\' Climate Lobby UK',
-        'description': 'Theme for a WordPress website',
-        #'colour': '#54ae68',  # Green colour
-        'logo_svg': 'assets/ccluk-logo.svg',
-        'logo_png': 'assets/ccluk-logo.png',
-        'overview': 'Citizens\' Climate Lobby UK is a non-profit organisation that advocates for a price on carbon pollution.',
-        'repositories': [
-            {
-                'name': 'Website',
-                'slug': 'website',
-                'url': 'https://citizensclimatelobby.uk',
-                'description': 'WordPress website with a custom theme.',
-                'github_url': 'https://github.com/turnpiece/ccluk',
-                'readme_url': 'https://raw.githubusercontent.com/turnpiece/ccluk/master/README.md',
-                'tech_stack': ['WordPress', 'PHP', 'CSS', 'JavaScript'],
-                'features': [
-                    'Responsive theme supporting Gutenberg blocks',
-                    'A home page banner letting site managers promote any page or article on the site'
-                ],
-                'screenshot': '/static/assets/ccluk-screenshot.png',
-                'logo': '/static/assets/ccluk-logo.png',
-            }
-        ]
     }
 }
 
