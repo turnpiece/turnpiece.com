@@ -67,7 +67,14 @@ python manage.py migrate --run-syncdb -v 0
 
 # ── 6. Start dev server ───────────────────────────────────────────────────────
 PORT="${PORT:-8000}"
+PID_FILE="$SCRIPT_DIR/.server.pid"
+
 echo ""
 info "Starting development server on http://127.0.0.1:${PORT}/"
 echo ""
-python manage.py runserver "$PORT"
+
+python manage.py runserver "$PORT" &
+SERVER_PID=$!
+echo "$SERVER_PID" > "$PID_FILE"
+trap "rm -f '$PID_FILE'" EXIT INT TERM
+wait "$SERVER_PID"
