@@ -8,7 +8,7 @@
     <div class="mb-8">
         <div class="flex items-center mb-4">
             {% if project.logo_svg or project.logo_png %}
-            <picture class="h-12 -ml-2.5 mr-4">
+            <picture class="h-12 sm:-ml-2.5 mr-4">
                 {% if project.logo_svg %}
                 <source srcset="{% static project.logo_svg %}" type="image/svg+xml">
                 {% endif %}
