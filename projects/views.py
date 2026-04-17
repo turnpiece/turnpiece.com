@@ -214,6 +214,7 @@ def repository_detail_view(request, project_slug, repo_slug):
     # Add project context
     repo_info['project_name'] = project['name']
     repo_info['project_slug'] = project_slug
+    repo_info['readme_page_url'] = repo_info['github_url'] + '/blob/main/README.md'
 
     try:
         # Fetch README content from GitHub

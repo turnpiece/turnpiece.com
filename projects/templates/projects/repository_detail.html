@@ -14,7 +14,7 @@
             <span class="text-gray-900">{{ repo_info.name }}</span>
         </nav>
         
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ repo_info.name }} Documentation</h1>
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ repo_info.name }} documentation</h1>
         <p class="text-lg text-gray-600">{{ repo_info.description }}</p>
         {% if last_updated %}
         <p class="text-sm text-gray-400 mt-2">Last updated: {{ last_updated }}</p>
@@ -39,7 +39,7 @@
         
         {% if repo_info.custom_description %}
         <div class="mb-6">
-            <h2 class="text-xl font-semibold text-gray-900 mb-3">About {{ repo_info.name }}</h2>
+            <h2 class="text-xl font-semibold text-gray-900 mb-3">About</h2>
             <p class="text-gray-700 leading-relaxed">{{ repo_info.custom_description }}</p>
         </div>
         {% endif %}
@@ -107,8 +107,16 @@
     {% endif %}
     
     <!-- GitHub README Content -->
-    <div class="github-readme">
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+    <div class="github-readme rounded-lg overflow-hidden border border-gray-200">
+        <div class="bg-white px-6 py-3 flex items-center justify-between border-b border-gray-200">
+            <a href="{{ repo_info.readme_page_url }}" target="_blank" rel="noopener noreferrer"
+               class="text-gray-500 hover:text-gray-900 text-sm font-mono transition-colors">README.md</a>
+            <a href="{{ repo_info.readme_url }}" target="_blank" rel="noopener noreferrer"
+               class="text-gray-500 hover:text-gray-900 text-xs transition-colors">
+                {{ repo_info.readme_url }}
+            </a>
+        </div>
+        <div class="bg-gray-900 p-8">
             {{ content|safe }}
         </div>
     </div>
