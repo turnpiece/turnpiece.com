@@ -34,15 +34,15 @@
     
     <script>
         // Scroll-based logo rotation — logarithmic scale.
-        // Every 25,000px the increment halves: 0-25k = 90°, 25-50k = +45°, 50-75k = +22.5°, etc.
-        // Asymptotes at 180° so the logo never completes more than a half turn on any page.
+        // Every 25,000px the increment halves: 0-25k = 150°, 25-50k = +75°, 50-75k = +37.5°, etc.
+        // Asymptotes at 300° so the logo never completes a full turn on any page.
         document.addEventListener('DOMContentLoaded', function() {
             const headerLogo = document.getElementById('header-logo');
 
             if (headerLogo) {
                 window.addEventListener('scroll', function() {
                     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                    const rotation = 180 * (1 - Math.pow(0.5, scrollTop / 25000));
+                    const rotation = 300 * (1 - Math.pow(0.5, scrollTop / 25000));
                     headerLogo.style.transform = `rotate(${rotation}deg)`;
                 }, { passive: true });
             }
