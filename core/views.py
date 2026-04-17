@@ -74,7 +74,10 @@ def home_view(request):
     
     # Get all projects from centralized source
     projects = list(PROJECTS_DATA.values())
-    
+    for project in projects:
+        for repo in project['repositories']:
+            repo['project_slug'] = project['slug']
+
     return render(request, "core/home.html", {
         "form": form, 
         "submitted": submitted, 
