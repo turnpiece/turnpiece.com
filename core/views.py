@@ -10,10 +10,6 @@ import re
 import time
 
 
-def scroll_test_view(request):
-    return render(request, "core/scroll_test.html")
-
-
 def send_contact_email(form_data, subject_prefix, recipient_email):
     """Helper function to send contact form emails."""
     email = EmailMessage(
