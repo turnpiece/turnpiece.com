@@ -61,7 +61,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {% for screenshot in repo_info.screenshots %}
                 <div class="text-center">
-                    <img src="{% static screenshot.src %}" alt="{{ screenshot.alt }}" class="w-full h-auto rounded-lg border border-gray-200 mb-2">
+                    <img src="{% static screenshot.src %}" alt="{{ screenshot.alt }}" class="max-w-full h-auto mx-auto rounded-lg border border-gray-200 mb-2">
                     <p class="text-sm text-gray-600">{{ screenshot.caption }}</p>
                 </div>
                 {% endfor %}
