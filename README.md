@@ -286,6 +286,11 @@ EMAIL_HOST_PASSWORD=your-app-password
 - **Static Files**: AWS S3 or nginx
 - **Email**: SendGrid, Mailgun, or AWS SES
 
+### Versioning
+
+npm run version:patch/minor/major
+This bumps package.json, commits, tags, pushes
+
 ## Contributing
 
 1. Create a feature branch
@@ -295,4 +300,4 @@ EMAIL_HOST_PASSWORD=your-app-password
 
 ## License
 
-[Add your license information here]
+GNU GENERAL PUBLIC LICENSE - see LICENSE file for details
