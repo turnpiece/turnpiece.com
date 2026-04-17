@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.cache import cache
 import requests
 import re
+from datetime import datetime, timezone
 
 def tech_to_slug(tech_name):
     """Convert tech name to URL slug."""
@@ -17,6 +19,9 @@ def tech_to_slug(tech_name):
         'Firebase': 'firebase',
         'WordPress': 'wordpress',
         'Graphic Package': 'graphic-package',
+        'Django': 'django',
+        'Tailwind CSS': 'tailwind-css',
+        'Redis': 'redis',
     }
     return tech_mapping.get(tech_name, tech_name.lower().replace(' ', '-'))
 
@@ -34,30 +39,42 @@ PROJECTS_DATA = {
             {
                 'name': 'Mobile App',
                 'slug': 'app',
-                'description': 'App for historical temperature visualisation',
+                'description': 'iOS app for exploring historical temperature data',
                 'github_url': 'https://github.com/turnpiece/temphist_app',
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_app/main/README.md',
+                'api_url': 'https://api.github.com/repos/turnpiece/temphist_app',
                 'tech_stack': ['Flutter', 'Dart', 'Firebase'],
+                'custom_description': 'The TempHist iOS app lets you see how today\'s temperature compares with historical records for the same date. Browse by day, week, month or year, search for any location in the world, and share snapshots with friends.',
                 'features': [
-                    'Horizontal bar chart visualisation',
-                    'Historical temperature data display',
-                    'Currently available on iOS',
-                    'Firebase backend integration'
+                    'Horizontal bar chart showing temperatures across decades',
+                    'Daily, weekly, monthly and yearly views',
+                    'Location selection with search',
+                    'Social sharing',
+                    'Available on iOS',
+                    'Firebase-powered real-time data',
                 ],
-                'screenshot': '/static/assets/TempHist-iPhone-screenshot.png'
+                'screenshots': [
+                    {'src': 'assets/TempHist-iPhone-screenshot.png', 'alt': 'TempHist iOS app', 'caption': 'Temperature history at a glance'},
+                ],
             },
             {
                 'name': 'Website',
                 'slug': 'website',
                 'url': 'https://temphist.org',
-                'description': 'Temperature history website',
+                'description': 'Web app for historical temperature visualisation',
                 'github_url': 'https://github.com/turnpiece/TempHist',
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist/main/README.md',
+                'api_url': 'https://api.github.com/repos/turnpiece/TempHist',
                 'tech_stack': ['HTML', 'CSS', 'JavaScript', 'Firebase'],
+                'custom_description': 'The TempHist website brings historical temperature data to any browser. Pick a location anywhere in the world, choose a time range, and see how temperatures have shifted over the past 50 years — all presented as an easy-to-read chart.',
                 'features': [
                     'Temperature history visualisation for your location',
+                    'Daily, weekly, monthly and yearly views',
+                    'Location selection — browse any place in the world',
+                    'Social sharing of temperature snapshots',
+                    'Responsive design for mobile and desktop',
                 ],
-                'screenshot': '/static/assets/TempHist-website-screenshot.png'
+                'screenshot': '/static/assets/TempHist-website-screenshot.png',
             },
             {
                 'name': 'API',
@@ -65,13 +82,71 @@ PROJECTS_DATA = {
                 'description': 'Backend API and data services',
                 'github_url': 'https://github.com/turnpiece/TempHist-API',
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist-API/main/README.md',
+                'api_url': 'https://api.github.com/repos/turnpiece/TempHist-API',
                 'tech_stack': ['Python', 'FastAPI', 'Redis'],
+                'custom_description': 'The TempHist API powers the app and website. It fetches and aggregates historical temperature records for any location worldwide, with Redis caching to keep responses fast even for repeated queries.',
                 'features': [
-                    'Temperature data endpoints',
-                    'Data processing and analysis',
-                    'Authentication and authorization'
+                    'Historical temperature data for any location worldwide',
+                    'Daily, weekly, monthly and yearly aggregated endpoints',
+                    'Redis caching for fast repeated queries',
+                    'Authentication and rate limiting',
+                    'OpenAPI/Swagger documentation',
                 ],
                 'logo': '/static/assets/temphist-logo.png',
+            }
+        ]
+    },
+    'portfolio': {
+        'slug': 'portfolio',
+        'name': 'This Portfolio',
+        'description': 'The website you are looking at right now',
+        'logo_svg': 'assets/tp-logo-white-transparent-fixed.svg',
+        'logo_png': 'assets/tp-logo-white-transparent-fixed.png',
+        'overview': 'This portfolio site is itself an active project. It is a Django application that pulls live README documentation and repository metadata directly from GitHub, so the content stays up to date without manual editing.',
+        'repositories': [
+            {
+                'name': 'Portfolio Website',
+                'slug': 'website',
+                'url': 'https://turnpiece.com',
+                'description': 'Django-powered portfolio with live GitHub integration',
+                'github_url': 'https://github.com/turnpiece/turnpiece.com',
+                'readme_url': 'https://raw.githubusercontent.com/turnpiece/turnpiece.com/main/README.md',
+                'api_url': 'https://api.github.com/repos/turnpiece/turnpiece.com',
+                'tech_stack': ['Python', 'Django', 'Tailwind CSS', 'PostgreSQL'],
+                'custom_description': 'Built with Django and Tailwind CSS, this site pulls live README content and last-updated dates directly from GitHub via the public API. Projects, tech stacks and features are defined in a single Python data structure — no database needed for content.',
+                'features': [
+                    'Live README documentation pulled from GitHub on each visit',
+                    'GitHub last-updated date shown on every repository page',
+                    'Tech-stack filtering across all projects',
+                    'Rate-limited contact form with honeypot spam protection',
+                    'Deployed on Railway with PostgreSQL',
+                ],
+            }
+        ]
+    },
+    'ccluk': {
+        'slug': 'ccluk',
+        'name': 'Citizens\' Climate Lobby UK',
+        'description': 'Theme for a WordPress website',
+        #'colour': '#54ae68',  # Green colour
+        'logo_svg': 'assets/ccluk-logo.svg',
+        'logo_png': 'assets/ccluk-logo.png',
+        'overview': 'Citizens\' Climate Lobby UK is a non-profit organisation that advocates for a price on carbon pollution.',
+        'repositories': [
+            {
+                'name': 'Website',
+                'slug': 'website',
+                'url': 'https://citizensclimatelobby.uk',
+                'description': 'WordPress website with a custom theme.',
+                'github_url': 'https://github.com/turnpiece/ccluk',
+                'readme_url': 'https://raw.githubusercontent.com/turnpiece/ccluk/master/README.md',
+                'tech_stack': ['WordPress', 'PHP', 'CSS', 'JavaScript'],
+                'features': [
+                    'Responsive theme supporting Gutenberg blocks',
+                    'A home page banner letting site managers promote any page or article on the site'
+                ],
+                'screenshot': '/static/assets/ccluk-screenshot.png',
+                'logo': '/static/assets/ccluk-logo.png',
             }
         ]
     }
@@ -98,6 +173,9 @@ def project_list_view(request, tech_slug=None):
             'firebase': 'Firebase',
             'wordpress': 'WordPress',
             'graphic-package': 'Graphic Package',
+            'django': 'Django',
+            'tailwind-css': 'Tailwind CSS',
+            'redis': 'Redis',
         }
         tech_name = tech_mapping.get(tech_slug.lower(), tech_slug.title())
         
@@ -161,22 +239,56 @@ def repository_detail_view(request, project_slug, repo_slug):
     # Add project context
     repo_info['project_name'] = project['name']
     repo_info['project_slug'] = project_slug
-    
+
     try:
         # Fetch README content from GitHub
         response = requests.get(repo_info['readme_url'], timeout=10)
         if response.status_code == 200:
             readme_content = response.text
-            # Convert markdown to HTML (basic conversion)
             html_content = convert_markdown_to_html(readme_content)
         else:
             html_content = "<p>Unable to load documentation from GitHub. Please check the repository URL.</p>"
     except Exception as e:
         html_content = f"<p>Error loading documentation: {str(e)}</p>"
-    
+
+    # Fetch GitHub repo metadata (last push date) — cached for 1 hour
+    last_updated = None
+    if repo_info.get('api_url'):
+        cache_key = f"github_meta_{project_slug}_{repo_slug}"
+        github_meta = cache.get(cache_key)
+        if not github_meta:
+            try:
+                meta_resp = requests.get(
+                    repo_info['api_url'], timeout=5,
+                    headers={'Accept': 'application/vnd.github+json'}
+                )
+                if meta_resp.status_code == 200:
+                    github_meta = meta_resp.json()
+                    cache.set(cache_key, github_meta, 3600)
+            except Exception:
+                pass
+        if github_meta:
+            pushed_at = github_meta.get('pushed_at')
+            if pushed_at:
+                dt = datetime.fromisoformat(pushed_at.replace('Z', '+00:00'))
+                now = datetime.now(timezone.utc)
+                delta = now - dt
+                if delta.days == 0:
+                    last_updated = 'today'
+                elif delta.days == 1:
+                    last_updated = 'yesterday'
+                elif delta.days < 30:
+                    last_updated = f'{delta.days} days ago'
+                elif delta.days < 365:
+                    months = delta.days // 30
+                    last_updated = f'{months} month{"s" if months > 1 else ""} ago'
+                else:
+                    last_updated = dt.strftime('%-d %B %Y')
+
     return render(request, "projects/repository_detail.html", {
         "content": html_content,
-        "repo_info": repo_info
+        "repo_info": repo_info,
+        "last_updated": last_updated,
     })
 
 def convert_markdown_to_html(markdown_text):

@@ -16,6 +16,9 @@
         
         <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ repo_info.name }} Documentation</h1>
         <p class="text-lg text-gray-600">{{ repo_info.description }}</p>
+        {% if last_updated %}
+        <p class="text-sm text-gray-400 mt-2">Last updated: {{ last_updated }}</p>
+        {% endif %}
     </div>
     
     <!-- Custom Project Information -->
