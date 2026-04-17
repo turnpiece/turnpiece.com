@@ -92,7 +92,7 @@ PROJECTS_DATA = {
                     'Authentication and rate limiting',
                     'OpenAPI/Swagger documentation',
                 ],
-                'logo': '/static/assets/temphist-logo.png',
+                'logo': '/static/assets/temphist-logo.png'
             }
         ]
     },
@@ -102,7 +102,8 @@ PROJECTS_DATA = {
         'description': 'The website you are looking at right now',
         'logo_svg': 'assets/tp-logo-white-transparent-fixed.svg',
         'logo_png': 'assets/tp-logo-white-transparent-fixed.png',
-        'overview': 'This portfolio site is itself an active project. It is a Django application that pulls live README documentation and repository metadata directly from GitHub, so the content stays up to date without manual editing.',
+        'screenshot': '/static/assets/turnpiece-com-homepage-screenshot',
+        'overview': 'This is a Python Django application that pulls live README documentation and repository metadata directly from GitHub, so the content stays up to date without manual editing.',
         'repositories': [
             {
                 'name': 'Portfolio Website',
