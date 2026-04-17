@@ -15,7 +15,7 @@
     <div class="mb-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         {% if repo_info.logo_svg or repo_info.logo_png %}
         <div class="mb-6">
-            <picture class="h-12 -ml-2.5">
+            <picture class="h-12 sm:-ml-2.5">
                 {% if repo_info.logo_svg %}
                 <source srcset="{% static repo_info.logo_svg %}" type="image/svg+xml">
                 {% endif %}
