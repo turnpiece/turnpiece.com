@@ -1,6 +1,6 @@
 {% if repo.screenshot or repo.screenshots %}
 <div class="rounded-lg p-2">
-    <a href="{% url 'project_detail' project.slug %}">
+    <a href="{% url 'repository_detail' repo.project_slug repo.slug %}">
         {% if repo.screenshot %}
         <img src="{{ repo.screenshot }}"
         {% else %}
