@@ -1,8 +1,12 @@
-{% if repo.screenshot %}
+{% if repo.screenshot or repo.screenshots %}
 <div class="flex items-start justify-center {{ container_height|default:'h-96' }} rounded-lg p-2">
     <a href="{% url 'project_detail' project.slug %}">
-        <img src="{{ repo.screenshot }}" 
-             alt="{{ repo.name }} screenshot" 
+        {% if repo.screenshot %}
+        <img src="{{ repo.screenshot }}"
+        {% else %}
+        <img src="{{ repo.screenshots.0.src }}"
+        {% endif %}
+             alt="{{ repo.name }} screenshot"
              class="w-full {{ container_height|default:'h-96' }} object-cover object-top rounded-lg hover:opacity-90 transition-opacity">
     </a>
 </div>

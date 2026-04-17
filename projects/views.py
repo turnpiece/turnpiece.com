@@ -54,7 +54,7 @@ PROJECTS_DATA = {
                     'Firebase-powered real-time data',
                 ],
                 'screenshots': [
-                    {'src': 'assets/TempHist-iPhone-screenshot.png', 'alt': 'TempHist iOS app', 'caption': 'Temperature history at a glance'},
+                    {'src': '/static/assets/TempHist-iPhone-screenshot.png', 'alt': 'TempHist iOS app', 'caption': 'Temperature history at a glance'},
                 ],
             },
             {
