@@ -33,25 +33,20 @@
     </main>
     
     <script>
-        // Scroll-based logo rotation
+        // Scroll-based logo rotation.
+        // Maps absolute pixels scrolled to degrees: 50,000px scrolled = 359°.
+        // Pages longer than that reference hold at 359° once the threshold is passed.
         document.addEventListener('DOMContentLoaded', function() {
             const headerLogo = document.getElementById('header-logo');
-            
+            const SCROLL_REFERENCE_PX = 50000;
+            const MAX_DEGREES = 359;
+
             if (headerLogo) {
                 window.addEventListener('scroll', function() {
                     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                    const windowHeight = window.innerHeight;
-                    const documentHeight = document.documentElement.scrollHeight;
-                    
-                    // Calculate scroll percentage (0 to 1)
-                    const scrollPercentage = Math.min(scrollTop / (documentHeight - windowHeight), 1);
-                    
-                    // Map scroll percentage to rotation (0 to 360 degrees)
-                    const rotation = scrollPercentage * 360;
-                    
-                    // Apply the rotation
+                    const rotation = Math.min((scrollTop / SCROLL_REFERENCE_PX) * MAX_DEGREES, MAX_DEGREES);
                     headerLogo.style.transform = `rotate(${rotation}deg)`;
-                });
+                }, { passive: true });
             }
         });
     </script>
