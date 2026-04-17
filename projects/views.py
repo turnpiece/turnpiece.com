@@ -268,10 +268,11 @@ def repository_detail_view(request, project_slug, repo_slug):
 
 def convert_markdown_to_html(markdown_text):
     """Basic markdown to HTML conversion."""
-    # Convert headers
+    # Convert headers (longest match first to avoid partial matches)
+    markdown_text = re.sub(r'^#### (.*$)', r'<h4>\1</h4>', markdown_text, flags=re.MULTILINE)
     markdown_text = re.sub(r'^### (.*$)', r'<h3>\1</h3>', markdown_text, flags=re.MULTILINE)
     markdown_text = re.sub(r'^## (.*$)', r'<h2>\1</h2>', markdown_text, flags=re.MULTILINE)
-    markdown_text = re.sub(r'^# (.*$)', r'<h2>\1</h2>', markdown_text, flags=re.MULTILINE)  # Convert H1 to H2
+    markdown_text = re.sub(r'^# (.*$)', r'<h2>\1</h2>', markdown_text, flags=re.MULTILINE)
     
     # Convert bold and italic
     markdown_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', markdown_text)
