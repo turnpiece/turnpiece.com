@@ -98,15 +98,14 @@ PROJECTS_DATA = {
     },
     'portfolio': {
         'slug': 'portfolio',
-        'name': 'This Portfolio',
+        'name': 'Turnpiece.com',
         'description': 'The website you are looking at right now',
         'logo_svg': 'assets/tp-logo-white-transparent-fixed.svg',
         'logo_png': 'assets/tp-logo-white-transparent-fixed.png',
-        'screenshot': '/static/assets/turnpiece-com-homepage-screenshot',
         'overview': 'This is a Python Django application that pulls live README documentation and repository metadata directly from GitHub, so the content stays up to date without manual editing.',
         'repositories': [
             {
-                'name': 'Portfolio Website',
+                'name': 'Portfolio website',
                 'slug': 'website',
                 'url': 'https://turnpiece.com',
                 'description': 'Django-powered portfolio with live GitHub integration',
@@ -114,6 +113,7 @@ PROJECTS_DATA = {
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/turnpiece.com/main/README.md',
                 'api_url': 'https://api.github.com/repos/turnpiece/turnpiece.com',
                 'tech_stack': ['Python', 'Django', 'Tailwind CSS', 'PostgreSQL'],
+                'screenshot': '/static/assets/turnpiece-com-homepage-screenshot.png',
                 'custom_description': 'Built with Django and Tailwind CSS, this site pulls live README content and last-updated dates directly from GitHub via the public API. Projects, tech stacks and features are defined in a single Python data structure — no database needed for content.',
                 'features': [
                     'Live README documentation pulled from GitHub on each visit',
