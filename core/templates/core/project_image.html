@@ -2,14 +2,14 @@
 {% if repo.screenshot or repo.screenshots %}
 <div class="rounded-lg p-2">
     <a href="{% url 'repository_detail' repo.project_slug repo.slug %}"
-       class="block rounded-lg border border-gray-200 hover:border-gray-900 transition-colors">
+       class="block w-fit mx-auto rounded-lg border border-gray-200 hover:border-gray-900 transition-colors">
         {% if repo.screenshot %}
         <img src="{% static repo.screenshot %}"
         {% else %}
         <img src="{% static repo.screenshots.0.src %}"
         {% endif %}
              alt="{{ repo.name }} screenshot"
-             class="max-h-[200px] lg:max-h-[400px] w-auto mx-auto rounded-lg">
+             class="max-h-[200px] lg:max-h-[400px] w-auto rounded-lg">
     </a>
 </div>
 {% elif repo.logo %}
