@@ -125,6 +125,11 @@
     padding-top: 6rem !important;
     padding-bottom: 6rem !important;
   }
+
+  #hero {
+    padding-top: 3rem !important;
+    padding-bottom: 5rem !important;
+  }
 }
 
 
@@ -140,11 +145,15 @@
   }
   
   .github-readme h2 {
-    @apply text-xl font-semibold text-gray-900 mb-3 mt-8 pb-2 border-b border-gray-200;
+    @apply text-lg font-semibold text-gray-900 mb-3 mt-8 pb-2 border-b border-gray-200;
   }
   
   .github-readme h3 {
     @apply text-lg font-semibold text-gray-900 mb-2 mt-6;
+  }
+
+  .github-readme h4 {
+    @apply text-base font-semibold text-gray-900 mb-2 mt-4;
   }
   
   .github-readme p {
