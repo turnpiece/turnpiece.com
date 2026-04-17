@@ -22,7 +22,7 @@
     </div>
     
     <!-- Custom Project Information -->
-    {% if repo_info.custom_description or repo_info.logo_svg or repo_info.logo_png or repo_info.screenshots or repo_info.tech_stack or repo_info.features %}
+    {% if repo_info.custom_description or repo_info.logo_svg or repo_info.logo_png or repo_info.screenshots or repo_info.screenshot or repo_info.tech_stack or repo_info.features or repo_info.url %}
     <div class="mb-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         {% if repo_info.logo_svg or repo_info.logo_png %}
         <div class="mb-6">
@@ -44,12 +44,32 @@
         </div>
         {% endif %}
         
+        {% if repo_info.url or repo_info.screenshot %}
+        <div class="mb-6">
+            {% if repo_info.url %}
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">Website</h3>
+            {% endif %}
+            {% if repo_info.screenshot %}
+            <a href="{{ repo_info.url }}" target="_blank" rel="noopener noreferrer">
+                <img src="{% static repo_info.screenshot %}" alt="{{ repo_info.name }} screenshot"
+                     class="max-h-[400px] w-auto mx-auto rounded-lg border border-gray-200 hover:opacity-90 transition-opacity">
+            </a>
+            {% endif %}
+            {% if repo_info.url %}
+            <p class="mt-3 text-center">
+                <a href="{{ repo_info.url }}" target="_blank" rel="noopener noreferrer"
+                   class="text-gray-700 hover:text-gray-900 hover:underline text-sm">{{ repo_info.url }}</a>
+            </p>
+            {% endif %}
+        </div>
+        {% endif %}
+
         {% if repo_info.tech_stack %}
         <div class="mb-6">
             <h3 class="text-lg font-semibold text-gray-900 mb-2">Tech Stack</h3>
             <div class="flex flex-wrap gap-2">
                 {% for tech in repo_info.tech_stack %}
-                <a href="{% url 'project_list_by_tech' tech|lower|slugify %}" 
+                <a href="{% url 'project_list_by_tech' tech|lower|slugify %}"
                    class="px-3 py-1 bg-gray-100 text-gray-800 text-sm font-medium rounded-full hover:bg-gray-200 transition-colors">
                     {{ tech }}
                 </a>
@@ -57,7 +77,7 @@
             </div>
         </div>
         {% endif %}
-        
+
         {% if repo_info.features %}
         <div class="mb-6">
             <h3 class="text-lg font-semibold text-gray-900 mb-2">Key Features</h3>
@@ -68,7 +88,7 @@
             </ul>
         </div>
         {% endif %}
-        
+
         {% if repo_info.screenshots %}
         <div>
             <h3 class="text-lg font-semibold text-gray-900 mb-3">Screenshots</h3>

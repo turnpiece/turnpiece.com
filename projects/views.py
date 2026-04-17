@@ -58,9 +58,9 @@ PROJECTS_DATA = {
                 ],
             },
             {
-                'name': 'Website',
+                'name': 'Temphist.com',
                 'slug': 'website',
-                'url': 'https://temphist.org',
+                'url': 'https://temphist.com',
                 'description': 'Web app for historical temperature visualisation',
                 'github_url': 'https://github.com/turnpiece/TempHist',
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist/main/README.md',
@@ -98,14 +98,14 @@ PROJECTS_DATA = {
     },
     'portfolio': {
         'slug': 'portfolio',
-        'name': 'Turnpiece.com',
+        'name': 'Turnpiece',
         'description': 'The website you are looking at right now',
         'logo_svg': 'assets/tp-logo-white-transparent-fixed.svg',
         'logo_png': 'assets/tp-logo-white-transparent-fixed.png',
         'overview': 'This is a Python Django application that pulls live README documentation and repository metadata directly from GitHub, so the content stays up to date without manual editing.',
         'repositories': [
             {
-                'name': 'Portfolio website',
+                'name': 'Turnpiece.com',
                 'slug': 'website',
                 'url': 'https://turnpiece.com',
                 'description': 'Django-powered portfolio with live GitHub integration',
