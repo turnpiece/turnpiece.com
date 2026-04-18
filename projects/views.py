@@ -227,26 +227,26 @@ def repository_detail_view(request, project_slug, repo_slug):
     except Exception as e:
         html_content = f"<p>Error loading documentation: {str(e)}</p>"
 
-    # Fetch GitHub repo metadata (last push date) — cached for 1 hour
+    # Fetch latest commit on main branch — cached for 1 hour
     last_updated = None
     if repo_info.get('api_url'):
-        cache_key = f"github_meta_{project_slug}_{repo_slug}"
-        github_meta = cache.get(cache_key)
-        if not github_meta:
+        cache_key = f"github_main_commit_{project_slug}_{repo_slug}"
+        commit_data = cache.get(cache_key)
+        if not commit_data:
             try:
-                meta_resp = requests.get(
-                    repo_info['api_url'], timeout=5,
+                commit_resp = requests.get(
+                    f"{repo_info['api_url']}/commits/main", timeout=5,
                     headers={'Accept': 'application/vnd.github+json'}
                 )
-                if meta_resp.status_code == 200:
-                    github_meta = meta_resp.json()
-                    cache.set(cache_key, github_meta, 3600)
+                if commit_resp.status_code == 200:
+                    commit_data = commit_resp.json()
+                    cache.set(cache_key, commit_data, 3600)
             except Exception:
                 pass
-        if github_meta:
-            pushed_at = github_meta.get('pushed_at')
-            if pushed_at:
-                dt = datetime.fromisoformat(pushed_at.replace('Z', '+00:00'))
+        if commit_data:
+            committed_at = commit_data.get('commit', {}).get('committer', {}).get('date')
+            if committed_at:
+                dt = datetime.fromisoformat(committed_at.replace('Z', '+00:00'))
                 now = datetime.now(timezone.utc)
                 delta = now - dt
                 if delta.days == 0:
