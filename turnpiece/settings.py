@@ -164,3 +164,24 @@ else:
 # Email recipient addresses
 CONTACT_EMAIL = os.environ.get('CONTACT_EMAIL', 'paul@turnpiece.com')
 SUPPORT_EMAIL = os.environ.get('SUPPORT_EMAIL', 'support@turnpiece.com')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}
