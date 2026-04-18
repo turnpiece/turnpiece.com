@@ -8,16 +8,16 @@ Turnpiece.com is a Django-based website featuring a clean, modern design with a 
 
 ## Features
 
-- **Home Page**: Clean, centered logo design with fade-in animation
-- **Support Page**: Professional contact form with validation and success feedback
-- **Contact Forms**: Multiple contact forms with bot prevention and rate limiting
-- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
+- **Home page**: Clean, centered logo design with fade-in animation
+- **Support page**: Professional contact form with validation and success feedback
+- **Contact forms**: Multiple contact forms with bot prevention and rate limiting
+- **Responsive design**: Works seamlessly on desktop, tablet, and mobile devices
 - **Modern UI**: Clean typography and professional styling
-- **SVG/PNG Logo Support**: Optimized logo display with SVG as primary, PNG as fallback
-- **Reusable Components**: Base template with header for consistent branding
-- **Bot Protection**: Honeypot fields and rate limiting to prevent spam
+- **SVG/PNG logo support**: Optimized logo display with SVG as primary, PNG as fallback
+- **Reusable components**: Base template with header for consistent branding
+- **Bot protection**: Honeypot fields and rate limiting to prevent spam
 
-## Project Structure
+## Project structure
 
 ```
 turnpiece.com/
@@ -42,15 +42,15 @@ turnpiece.com/
 └── README.md                 # This file
 ```
 
-## Technology Stack
+## Technology stack
 
 - **Backend**: Django 5.2.3
 - **Frontend**: HTML5, CSS3, JavaScript
 - **Database**: SQLite (development)
-- **Static Files**: Django's built-in static file handling
+- **Static files**: Django's built-in static file handling
 - **Email**: Django's email backend (configurable)
 
-## Local Development Setup
+## Local development setup
 
 ### Prerequisites
 
@@ -139,7 +139,7 @@ If you prefer to set up manually:
    - Home page: http://127.0.0.1:8000/
    - Support page: http://127.0.0.1:8000/support/
 
-### Development Commands
+### Development commands
 
 ```bash
 # Run the development server
@@ -161,7 +161,7 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-### Tailwind CSS Development
+### Tailwind CSS development
 
 The project uses Tailwind CSS for styling. After making changes to templates or Tailwind classes:
 
@@ -186,7 +186,7 @@ npm run build
 
 ## Configuration
 
-### Email Settings
+### Email settings
 
 The application now uses environment variables for email configuration. Set the following in your `.env` file:
 
@@ -205,25 +205,25 @@ DJANGO_DEVELOPMENT=False
 
 For development, you can set `DJANGO_DEVELOPMENT=True` to use the console email backend instead of SMTP.
 
-### Bot Prevention
+### Bot prevention
 
 The contact forms include several layers of bot protection:
 
-#### 1. Honeypot Field
+#### 1. Honeypot field
 
 - **Hidden "website" field** that bots fill but humans can't see
 - **Zero impact on user experience** - completely invisible
 - **~80-90% effective** against basic bots
 - **Automatic rejection** if honeypot is filled
 
-#### 2. Rate Limiting
+#### 2. Rate limiting
 
 - **3 submissions per 5 minutes** per IP address
 - **Prevents rapid-fire spam** attacks
 - **Uses Django cache** for efficient storage
 - **~95% effective** against automated spam
 
-#### 3. Form Validation
+#### 3. Form validation
 
 - **Standard Django form validation** (email format, required fields)
 - **Input sanitization** and validation
@@ -231,18 +231,18 @@ The contact forms include several layers of bot protection:
 
 #### Configuration
 
-- **Rate Limit**: 3 submissions per IP per 5 minutes
-- **Honeypot Field**: `website` (completely hidden)
+- **Rate limit**: 3 submissions per IP per 5 minutes
+- **Honeypot field**: `website` (completely hidden)
 - **Storage**: Django cache system
 - **Monitoring**: Check Django logs for "Bot detected" errors
 
-#### Testing Bot Prevention
+#### Testing bot prevention
 
 1. **Honeypot**: Fill the hidden website field and submit
 2. **Rate Limiting**: Submit 4+ forms quickly from same IP
 3. **Form Validation**: Submit invalid email addresses
 
-#### Advanced Options (If Needed)
+#### Advanced options (if needed)
 
 If basic measures aren't sufficient, you can add:
 
@@ -250,7 +250,7 @@ If basic measures aren't sufficient, you can add:
 - **Time-based validation** (check form fill speed)
 - **IP blacklisting** (block known spam IPs)
 
-### Environment Variables
+### Environment variables
 
 The application uses environment variables for sensitive settings. Key variables include:
 
@@ -269,7 +269,7 @@ EMAIL_HOST_PASSWORD=your-app-password
 
 ## Deployment
 
-### Production Considerations
+### Production considerations
 
 1. **Set DEBUG = False** in settings.py
 2. **Configure a production database** (PostgreSQL recommended)
@@ -278,12 +278,12 @@ EMAIL_HOST_PASSWORD=your-app-password
 5. **Use environment variables** for sensitive settings
 6. **Set up HTTPS** with SSL certificates
 
-### Recommended Stack
+### Recommended stack
 
-- **Web Server**: nginx
-- **Application Server**: Gunicorn
+- **Web server**: nginx
+- **Application server**: Gunicorn
 - **Database**: PostgreSQL
-- **Static Files**: AWS S3 or nginx
+- **Static files**: AWS S3 or nginx
 - **Email**: SendGrid, Mailgun, or AWS SES
 
 ### Versioning

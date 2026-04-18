@@ -18,9 +18,7 @@ def tech_to_slug(tech_name):
         'PostgreSQL': 'postgresql',
         'Firebase': 'firebase',
         'WordPress': 'wordpress',
-        'Graphic Package': 'graphic-package',
         'Django': 'django',
-        'Tailwind CSS': 'tailwind-css',
         'Redis': 'redis',
     }
     return tech_mapping.get(tech_name, tech_name.lower().replace(' ', '-'))
@@ -66,7 +64,7 @@ PROJECTS_DATA = {
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist/main/README.md',
                 'api_url': 'https://api.github.com/repos/turnpiece/TempHist',
                 'tech_stack': ['HTML', 'CSS', 'JavaScript', 'Firebase'],
-                'custom_description': 'The TempHist website brings historical temperature data to any browser. Pick a location anywhere in the world, choose a time range, and see how temperatures have shifted over the past 50 years — all presented as an easy-to-read chart.',
+                'custom_description': 'The TempHist website brings historical temperature data to any browser. Use your own location or pick from a range of cities around the world and see how temperatures have shifted over the past 50 years — all presented as an easy-to-read chart. See how today compares with the same date in previous years, or how this past week compares with the week ending on the same date in previous years, or this past month or past year. Is it warmer or cooler than average for the time of year? Are temperatures rising or falling?',
                 'features': [
                     'Temperature history visualisation for your location',
                     'Daily, weekly, monthly and yearly views',
@@ -83,7 +81,7 @@ PROJECTS_DATA = {
                 'github_url': 'https://github.com/turnpiece/TempHist-API',
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/TempHist-API/main/README.md',
                 'api_url': 'https://api.github.com/repos/turnpiece/TempHist-API',
-                'tech_stack': ['Python', 'FastAPI', 'Redis'],
+                'tech_stack': ['Python', 'FastAPI', 'Redis', 'PostgreSQL'],
                 'custom_description': 'The TempHist API powers the app and website. It fetches and aggregates historical temperature records for any location worldwide, with Redis caching to keep responses fast even for repeated queries.',
                 'features': [
                     'Historical temperature data for any location worldwide',
@@ -108,11 +106,11 @@ PROJECTS_DATA = {
                 'name': 'Turnpiece.com',
                 'slug': 'website',
                 'url': 'https://turnpiece.com',
-                'description': 'Django-powered portfolio with live GitHub integration',
+                'description': 'Django-powered portfolio website with live GitHub integration',
                 'github_url': 'https://github.com/turnpiece/turnpiece.com',
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/turnpiece.com/main/README.md',
                 'api_url': 'https://api.github.com/repos/turnpiece/turnpiece.com',
-                'tech_stack': ['Python', 'Django', 'Tailwind CSS', 'PostgreSQL'],
+                'tech_stack': ['Python', 'Django', 'PostgreSQL', 'HTML', 'CSS'],
                 'screenshot': 'assets/turnpiece-com-homepage-screenshot.png',
                 'custom_description': 'Built with Django and Tailwind CSS, this site pulls live README content and last-updated dates directly from GitHub via the public API. Projects, tech stacks and features are defined in a single Python data structure — no database needed for content.',
                 'features': [
@@ -131,6 +129,9 @@ def project_list_view(request, tech_slug=None):
     """List all projects, optionally filtered by tech stack."""
     # Convert PROJECTS_DATA to list format for the list view
     projects = list(PROJECTS_DATA.values())
+    for project in projects:
+        for repo in project['repositories']:
+            repo['project_slug'] = project['slug']
     
     # Filter by tech stack if specified
     if tech_slug:
@@ -147,9 +148,8 @@ def project_list_view(request, tech_slug=None):
             'postgresql': 'PostgreSQL',
             'firebase': 'Firebase',
             'wordpress': 'WordPress',
-            'graphic-package': 'Graphic Package',
+            'graphic-package': 'Graphic package',
             'django': 'Django',
-            'tailwind-css': 'Tailwind CSS',
             'redis': 'Redis',
         }
         tech_name = tech_mapping.get(tech_slug.lower(), tech_slug.title())
@@ -157,15 +157,13 @@ def project_list_view(request, tech_slug=None):
         # Filter projects to only show those with the specified tech
         filtered_projects = []
         for project in projects:
-            # Check if any repository in this project uses the tech
-            project_uses_tech = False
-            for repo in project['repositories']:
-                if tech_name in repo.get('tech_stack', []):
-                    project_uses_tech = True
-                    break
-            
+            project_uses_tech = any(
+                tech_name in repo.get('tech_stack', [])
+                for repo in project['repositories']
+            )
             if project_uses_tech:
-                # Include the complete project with all repositories
+                for repo in project['repositories']:
+                    repo['project_slug'] = project['slug']
                 filtered_projects.append(project)
         
         projects = filtered_projects
