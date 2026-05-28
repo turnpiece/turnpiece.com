@@ -1,8 +1,17 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.cache import cache
+import os
 import requests
 import mistune
 from datetime import datetime, timezone
+
+
+def github_headers():
+    headers = {'Accept': 'application/vnd.github+json'}
+    token = os.environ.get('GITHUB_TOKEN')
+    if token:
+        headers['Authorization'] = f'Bearer {token}'
+    return headers
 
 def tech_to_slug(tech_name):
     """Convert tech name to URL slug."""
@@ -214,16 +223,19 @@ def repository_detail_view(request, project_slug, repo_slug):
     repo_info['project_slug'] = project_slug
     repo_info['readme_page_url'] = repo_info['github_url'] + '/blob/main/README.md'
 
-    try:
-        # Fetch README content from GitHub
-        response = requests.get(repo_info['readme_url'], timeout=10)
-        if response.status_code == 200:
-            readme_content = response.text
-            html_content = convert_markdown_to_html(readme_content)
-        else:
-            html_content = "<p>Unable to load documentation from GitHub. Please check the repository URL.</p>"
-    except Exception as e:
-        html_content = f"<p>Error loading documentation: {str(e)}</p>"
+    # Fetch README content from GitHub — cached for 1 hour
+    readme_cache_key = f"github_readme_{project_slug}_{repo_slug}"
+    html_content = cache.get(readme_cache_key)
+    if not html_content:
+        try:
+            response = requests.get(repo_info['readme_url'], timeout=10, headers=github_headers())
+            if response.status_code == 200:
+                html_content = convert_markdown_to_html(response.text)
+            else:
+                html_content = "<p>Unable to load documentation from GitHub.</p>"
+        except Exception as e:
+            html_content = f"<p>Error loading documentation: {str(e)}</p>"
+        cache.set(readme_cache_key, html_content, 3600)
 
     # Fetch latest commit on main branch — cached for 1 hour
     last_updated = None
@@ -234,7 +246,7 @@ def repository_detail_view(request, project_slug, repo_slug):
             try:
                 commit_resp = requests.get(
                     f"{repo_info['api_url']}/commits/main", timeout=5,
-                    headers={'Accept': 'application/vnd.github+json'}
+                    headers=github_headers()
                 )
                 if commit_resp.status_code == 200:
                     commit_data = commit_resp.json()

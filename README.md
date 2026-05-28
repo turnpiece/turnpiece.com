@@ -250,6 +250,21 @@ If basic measures aren't sufficient, you can add:
 - **Time-based validation** (check form fill speed)
 - **IP blacklisting** (block known spam IPs)
 
+### GitHub API token
+
+The site fetches README content and last-commit dates from GitHub. Without a token, GitHub limits unauthenticated requests to **60 per hour** per IP. Adding a token raises this to **5,000 per hour**.
+
+To create a token:
+
+1. Go to GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained tokens**
+2. Click **Generate new token**
+3. Set an expiration (90 days or 1 year)
+4. Under **Repository access**, choose **Public Repositories (read-only)**
+5. No additional permissions are needed — public repo read access is sufficient
+6. Generate and copy the token, then set it as `GITHUB_TOKEN` in your environment
+
+The app works without the token set; it simply falls back to the unauthenticated rate limit.
+
 ### Environment variables
 
 The application uses environment variables for sensitive settings. Key variables include:
@@ -265,6 +280,10 @@ CONTACT_EMAIL=paul@turnpiece.com
 SUPPORT_EMAIL=support@turnpiece.com
 EMAIL_HOST_USER=your-email@gmail.com
 EMAIL_HOST_PASSWORD=your-app-password
+
+# GitHub API token (optional — raises rate limit from 60 to 5000 req/hour)
+# Fine-grained personal access token with Public Repositories (read-only) access
+GITHUB_TOKEN=your-github-token-here
 ```
 
 ## Deployment
