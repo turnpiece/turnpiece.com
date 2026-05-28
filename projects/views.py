@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.core.cache import cache
 import requests
-import re
+import mistune
 from datetime import datetime, timezone
 
 def tech_to_slug(tech_name):
@@ -266,95 +266,4 @@ def repository_detail_view(request, project_slug, repo_slug):
     })
 
 def convert_markdown_to_html(markdown_text):
-    """Basic markdown to HTML conversion."""
-    # Convert headers (longest match first to avoid partial matches)
-    markdown_text = re.sub(r'^#### (.*$)', r'<h4>\1</h4>', markdown_text, flags=re.MULTILINE)
-    markdown_text = re.sub(r'^### (.*$)', r'<h3>\1</h3>', markdown_text, flags=re.MULTILINE)
-    markdown_text = re.sub(r'^## (.*$)', r'<h2>\1</h2>', markdown_text, flags=re.MULTILINE)
-    markdown_text = re.sub(r'^# (.*$)', r'<h2>\1</h2>', markdown_text, flags=re.MULTILINE)
-    
-    # Convert bold and italic
-    markdown_text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', markdown_text)
-    markdown_text = re.sub(r'\*(.*?)\*', r'<em>\1</em>', markdown_text)
-    
-    # Convert code blocks
-    markdown_text = re.sub(r'```(\w+)?\n(.*?)```', r'<pre><code>\2</code></pre>', markdown_text, flags=re.DOTALL)
-    markdown_text = re.sub(r'`(.*?)`', r'<code>\1</code>', markdown_text)
-    
-    # Convert links
-    markdown_text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', markdown_text)
-    
-    # Convert lists - first pass: convert list items to HTML
-    lines = markdown_text.split('\n')
-    processed_lines = []
-    
-    for line in lines:
-        stripped = line.strip()
-        if stripped.startswith('* ') or stripped.startswith('- '):
-            processed_lines.append(re.sub(r'^[\*\-] (.*$)', r'<li>\1</li>', line, flags=re.MULTILINE))
-        elif re.match(r'^\d+\. ', stripped):
-            processed_lines.append(re.sub(r'^\d+\. (.*$)', r'<li>\1</li>', line, flags=re.MULTILINE))
-        else:
-            processed_lines.append(line)
-    
-    # Second pass: wrap list items in ul/ol tags with proper start attributes
-    result = []
-    in_ul = False
-    in_ol = False
-    current_ol_start = 1
-    
-    for i, line in enumerate(processed_lines):
-        stripped = line.strip()
-        
-        if stripped.startswith('<li>'):
-            # Determine if this is an ordered list by checking the original line
-            original_line = lines[i] if i < len(lines) else ''
-            is_ordered = bool(re.match(r'^\d+\. ', original_line.strip()))
-            
-            if is_ordered:
-                # Extract the number from the original line
-                match = re.match(r'^(\d+)\. ', original_line.strip())
-                if match:
-                    number = int(match.group(1))
-                    
-                    if not in_ol:
-                        if in_ul:
-                            result.append('</ul>')
-                            in_ul = False
-                        # Use the actual number as the start value
-                        result.append(f'<ol start="{number}">')
-                        in_ol = True
-                        current_ol_start = number
-                    elif number != current_ol_start:
-                        # If the number changes, close current ol and start new one
-                        result.append('</ol>')
-                        result.append(f'<ol start="{number}">')
-                        current_ol_start = number
-            elif not in_ul:
-                if in_ol:
-                    result.append('</ol>')
-                    in_ol = False
-                result.append('<ul>')
-                in_ul = True
-            result.append(line)
-        else:
-            if in_ul:
-                result.append('</ul>')
-                in_ul = False
-            elif in_ol:
-                result.append('</ol>')
-                in_ol = False
-            result.append(line)
-    
-    if in_ul:
-        result.append('</ul>')
-    elif in_ol:
-        result.append('</ol>')
-    
-    markdown_text = '\n'.join(result)
-    
-    # Convert paragraphs
-    content = markdown_text
-    content = re.sub(r'\n\n([^<].*?)\n\n', r'\n\n<p>\1</p>\n\n', content, flags=re.DOTALL)
-    
-    return content
+    return mistune.html(markdown_text)
