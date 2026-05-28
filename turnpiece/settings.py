@@ -89,7 +89,7 @@ DATABASES = {
     }
 }
 
-# Use PostgreSQL on Render
+# Use PostgreSQL
 if os.environ.get('DATABASE_URL'):
     import dj_database_url
     DATABASES['default'] = dj_database_url.config(
@@ -98,6 +98,15 @@ if os.environ.get('DATABASE_URL'):
         conn_health_checks=True,
     )
 
+# Use Redis for caching
+if os.environ.get('REDIS_URL'):
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': os.environ['REDIS_URL'],
+            'OPTIONS': {'CLIENT_CLASS': 'django_redis.client.DefaultClient'},
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
