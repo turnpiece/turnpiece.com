@@ -29,10 +29,13 @@ if [ -z "$VENV_DIR" ]; then
   python3 -m venv env
   VENV_DIR="env"
 else
-  # Check the interpreter inside the venv still exists
+  # Check the venv is usable and still lives where it was created. A venv that
+  # has been moved keeps a working python symlink, but its pip/activate scripts
+  # point at the old path.
   VENV_PYTHON="$VENV_DIR/bin/python"
-  if [ ! -x "$VENV_PYTHON" ] || ! "$VENV_PYTHON" -c "" &>/dev/null; then
-    warning "Virtual environment '$VENV_DIR' has a broken interpreter — recreating …"
+  if [ ! -x "$VENV_PYTHON" ] || ! "$VENV_PYTHON" -m pip --version &>/dev/null \
+     || ! grep -qF "$SCRIPT_DIR/$VENV_DIR" "$VENV_DIR/bin/activate"; then
+    warning "Virtual environment '$VENV_DIR' is broken or was moved — recreating …"
     rm -rf "$VENV_DIR"
     python3 -m venv "$VENV_DIR"
   fi
@@ -43,7 +46,7 @@ info "Virtual environment: $VENV_DIR"
 
 # ── 2. Python dependencies ────────────────────────────────────────────────────
 info "Installing/checking Python dependencies …"
-pip install -q -r requirements.txt
+python -m pip install -q -r requirements.txt
 
 # ── 3. .env file ─────────────────────────────────────────────────────────────
 if [ ! -f ".env" ]; then
