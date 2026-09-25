@@ -76,8 +76,8 @@ echo ""
 info "Starting development server on http://127.0.0.1:${PORT}/"
 echo ""
 
-python manage.py runserver "$PORT" &
-SERVER_PID=$!
-echo "$SERVER_PID" > "$PID_FILE"
-trap "rm -f '$PID_FILE'" EXIT INT TERM
-wait "$SERVER_PID"
+# Record our PID for stop.sh, then replace this shell with the server. Running
+# it in the foreground (rather than as a background job) means Ctrl-C reaches
+# it; background jobs in a script ignore SIGINT and would keep the port bound.
+echo "$$" > "$PID_FILE"
+exec python manage.py runserver "$PORT"
