@@ -40,40 +40,24 @@ for _ in 1 2 3 4 5 6; do
 done
 head_sha=$(gh pr view "$pr" --json headRefOid --jq .headRefOid)
 
-# Dependabot rebases conflicting PRs itself (it ignores "@dependabot rebase"
-# from this workflow's bot account, so asking doesn't help).
+# This workflow never pushes to Dependabot's branches: once anyone else has
+# pushed, Dependabot stops rebasing the PR, and CI on bot pushes needs manual
+# approval. Anything stuck is flagged for a person instead.
+
+# Dependabot rebases conflicting PRs itself.
 if [[ "$mergeable" == "CONFLICTING" ]]; then
   echo "PR #$pr conflicts with $target; leaving it for Dependabot to rebase."
   exit 0
 fi
 
-# Older PRs (opened before CI existed) have no CI run, so required checks
-# would never pass. Only the sweep checks this: on a PR event, CI is starting
-# alongside this run.
+# A PR with no CI run can never pass the required checks. Dependabot only
+# takes commands from people with push access, so ask for one. Only the sweep
+# checks this: on a PR event, CI is starting alongside this run.
 if [[ "${GITHUB_EVENT_NAME:-}" != "pull_request" ]]; then
   ci_runs=$(gh api "repos/{owner}/{repo}/commits/$head_sha/check-runs?check_name=Tests" --jq .total_count)
   if [[ "$ci_runs" == "0" ]]; then
-    head_ref=$(gh pr view "$pr" --json headRefName --jq .headRefName)
-    # Merge develop into the PR branch so it has the CI workflow and is tested
-    # against current develop. Fails harmlessly if it's already up to date.
-    echo "PR #$pr has no CI run; updating its branch from $target."
-    if gh api -X PUT "repos/{owner}/{repo}/pulls/$pr/update-branch" \
-         -f expected_head_sha="$head_sha" --silent; then
-      for _ in $(seq 1 12); do
-        new_sha=$(gh pr view "$pr" --json headRefOid --jq .headRefOid)
-        [[ "$new_sha" != "$head_sha" ]] && break
-        sleep 5
-      done
-      if [[ "$new_sha" == "$head_sha" ]]; then
-        echo "PR #$pr branch update hasn't shown up yet; the next sweep will retry."
-        exit 0
-      fi
-      head_sha="$new_sha"
-    fi
-    # Commits pushed with GITHUB_TOKEN don't start workflows, but a manual
-    # dispatch does, and its checks count for the PR's head commit.
-    gh workflow run ci.yml --ref "$head_ref"
-    echo "Started CI on $head_ref ($head_sha)."
+    echo "::warning::PR #$pr has never had a CI run. Comment \"@dependabot recreate\" on it to rebuild it so CI runs."
+    exit 0
   fi
 fi
 
