@@ -1,0 +1,48 @@
+name: Dependabot auto-merge
+
+# Runs on each Dependabot PR, plus a weekly sweep (and a manual button) that
+# picks up any Dependabot PRs still open, e.g. ones opened before this existed.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  actions: write # to start CI on PRs that have never had a run
+  contents: write
+  pull-requests: write
+
+# One run per PR (plus one for the sweep). A single shared group would let
+# GitHub keep only one queued run and cancel the rest. Runs can overlap, but
+# --match-head-commit and GitHub's own mergeability check keep merges safe.
+concurrency:
+  group: dependabot-auto-merge-${{ github.event.pull_request.number || 'sweep' }}
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    if: github.event_name != 'pull_request' || github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      # Testing is left to the CI workflow, which branch protection requires.
+      - uses: actions/checkout@v4
+
+      - name: Merge Dependabot PR(s)
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            prs="${{ github.event.pull_request.number }}"
+          else
+            prs=$(gh pr list --author app/dependabot --state open --json number --jq '.[].number' | sort -n)
+          fi
+          failed=0
+          for pr in $prs; do
+            echo "::group::PR #$pr"
+            bash .github/scripts/merge-dependabot-pr.sh "$pr" || { echo "::error::PR #$pr failed"; failed=1; }
+            echo "::endgroup::"
+          done
+          exit $failed
