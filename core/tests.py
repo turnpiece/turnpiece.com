@@ -84,3 +84,26 @@ class SitemapTests(TestCase):
         response = self.client.get('/robots.txt')
         self.assertEqual(response.status_code, 200)
         self.assertIn('Sitemap: https://testserver/sitemap.xml', response.content.decode())
+
+
+class CanonicalUrlTests(TestCase):
+    def test_home_has_canonical_without_query_string(self):
+        response = self.client.get('/?utm_source=x')
+        self.assertContains(response, '<link rel="canonical" href="https://turnpiece.com/">', html=False)
+
+    def test_inner_page_canonical_uses_path(self):
+        response = self.client.get('/projects/')
+        self.assertContains(response, '<link rel="canonical" href="https://turnpiece.com/projects/">', html=False)
+
+
+class WwwRedirectTests(TestCase):
+    def test_www_redirects_permanently_to_apex(self):
+        with self.settings(ALLOWED_HOSTS=['www.turnpiece.com']):
+            response = self.client.get('/projects/?a=1', HTTP_HOST='www.turnpiece.com')
+        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response['Location'], 'https://turnpiece.com/projects/?a=1')
+
+    def test_apex_is_not_redirected(self):
+        with self.settings(ALLOWED_HOSTS=['turnpiece.com']):
+            response = self.client.get('/', HTTP_HOST='turnpiece.com')
+        self.assertEqual(response.status_code, 200)
