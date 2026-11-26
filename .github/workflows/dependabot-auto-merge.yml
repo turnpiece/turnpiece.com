@@ -13,9 +13,11 @@ permissions:
   contents: write
   pull-requests: write
 
-# One merge at a time so each PR is tested against the latest develop.
+# One run per PR (plus one for the sweep). A single shared group would let
+# GitHub keep only one queued run and cancel the rest. Runs can overlap, but
+# --match-head-commit and GitHub's own mergeability check keep merges safe.
 concurrency:
-  group: dependabot-auto-merge
+  group: dependabot-auto-merge-${{ github.event.pull_request.number || 'sweep' }}
   cancel-in-progress: false
 
 jobs:
