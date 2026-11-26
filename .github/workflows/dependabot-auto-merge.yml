@@ -13,9 +13,11 @@ permissions:
   contents: write
   pull-requests: write
 
-# One merge at a time so each PR is tested against the latest develop.
+# One run per PR (plus one for the sweep). A single shared group would let
+# GitHub keep only one queued run and cancel the rest. Runs can overlap, but
+# --match-head-commit and GitHub's own mergeability check keep merges safe.
 concurrency:
-  group: dependabot-auto-merge
+  group: dependabot-auto-merge-${{ github.event.pull_request.number || 'sweep' }}
   cancel-in-progress: false
 
 jobs:
@@ -26,22 +28,11 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GH_REPO: ${{ github.repository }}
     steps:
+      # Testing is left to the CI workflow, which branch protection requires.
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
 
       - name: Merge Dependabot PR(s)
         run: |
-          # Keep the script from the triggering ref, since checkouts below move HEAD.
-          cp .github/scripts/merge-dependabot-pr.sh "$RUNNER_TEMP/merge.sh"
           if [[ "${{ github.event_name }}" == "pull_request" ]]; then
             prs="${{ github.event.pull_request.number }}"
           else
@@ -50,8 +41,7 @@ jobs:
           failed=0
           for pr in $prs; do
             echo "::group::PR #$pr"
-            bash "$RUNNER_TEMP/merge.sh" "$pr" || { echo "::error::PR #$pr failed"; failed=1; }
-            git checkout --quiet --force "$GITHUB_SHA"
+            bash .github/scripts/merge-dependabot-pr.sh "$pr" || { echo "::error::PR #$pr failed"; failed=1; }
             echo "::endgroup::"
           done
           exit $failed
