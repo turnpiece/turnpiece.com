@@ -1,6 +1,30 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind v4. source(none) turns off automatic scanning (which would also
+   pick up .claude/worktrees); the template folders are listed explicitly.
+   Add new apps' template folders here. Paths are relative to this file. */
+@import "tailwindcss" source(none);
+@source "../../../../templates";
+@source "../../../../core/templates";
+@source "../../../../projects/templates";
+
+/* Classes built in Python or passed into templates, so never seen in a scan. */
+@source inline("hidden sm:block sm:-ml-2.5");
+
+/* v3 compatibility (from the Tailwind upgrade guide): v4 borders default to
+   currentColor, and buttons to cursor: default. Keep the v3 look. */
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 /* Custom icon styles */
 .icon-apple::before {
@@ -108,11 +132,11 @@
   
   /* Button styles */
   .btn-primary {
-    @apply inline-flex items-center px-4 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors uppercase tracking-wider;
+    @apply inline-flex items-center px-4 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors uppercase tracking-wider;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center px-4 py-3 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors uppercase tracking-wider;
+    @apply inline-flex items-center px-4 py-3 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-white focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors uppercase tracking-wider;
   }
 
   .btn-disabled {
@@ -173,7 +197,7 @@
   }
 
   .github-readme code {
-    @apply bg-gray-700 px-1 py-0.5 rounded text-sm font-mono text-gray-100;
+    @apply bg-gray-700 px-1 py-0.5 rounded-sm text-sm font-mono text-gray-100;
   }
 
   .github-readme pre {
