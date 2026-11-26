@@ -10,7 +10,6 @@ on:
   workflow_dispatch:
 
 permissions:
-  actions: write # to start CI on PRs that have never had a run
   contents: write
   pull-requests: write
 
