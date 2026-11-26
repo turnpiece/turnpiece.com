@@ -22,7 +22,7 @@
     </div>
     
     <!-- Custom Project Information -->
-    {% if repo_info.custom_description or repo_info.logo_svg or repo_info.logo_png or repo_info.screenshots or repo_info.screenshot or repo_info.tech_stack or repo_info.features or repo_info.url %}
+    {% if repo_info.custom_description or repo_info.logo_svg or repo_info.logo_png or repo_info.screenshots or repo_info.screenshot or repo_info.tech_stack or repo_info.features or repo_info.url or repo_info.store_links %}
     <div class="mb-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         {% if repo_info.logo_svg or repo_info.logo_png %}
         <div class="mb-6">
@@ -43,7 +43,21 @@
             <p class="text-gray-700 leading-relaxed">{{ repo_info.custom_description }}</p>
         </div>
         {% endif %}
-        
+
+        {% if repo_info.store_links %}
+        <div class="mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">Get the app</h3>
+            <div class="flex flex-wrap gap-3">
+                {% for link in repo_info.store_links %}
+                <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                    Get it on {{ link.store }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
         {% if repo_info.url or repo_info.screenshot %}
         <div class="mb-6">
             {% if repo_info.url %}
@@ -96,7 +110,14 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {% for screenshot in repo_info.screenshots %}
                 <div class="text-center">
+                    {% if screenshot.url %}
+                    <a href="{{ screenshot.url }}" target="_blank" rel="noopener noreferrer"
+                       class="block w-fit mx-auto rounded-lg border border-gray-200 hover:border-gray-900 transition-colors mb-2">
+                        <img src="{% static screenshot.src %}" alt="{{ screenshot.alt }}" class="max-w-full h-auto rounded-lg">
+                    </a>
+                    {% else %}
                     <img src="{% static screenshot.src %}" alt="{{ screenshot.alt }}" class="max-w-full h-auto mx-auto rounded-lg border border-gray-200 mb-2">
+                    {% endif %}
                     <p class="text-sm text-gray-600">{{ screenshot.caption }}</p>
                 </div>
                 {% endfor %}
