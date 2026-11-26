@@ -15,6 +15,8 @@ fi
 PID=$(cat "$PID_FILE")
 
 if kill -0 "$PID" 2>/dev/null; then
+  # runserver's auto-reloader runs the real server as a child process
+  pkill -P "$PID" 2>/dev/null || true
   kill "$PID"
   rm -f "$PID_FILE"
   info "Server stopped (PID $PID)"

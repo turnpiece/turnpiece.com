@@ -1,0 +1,28 @@
+# Routine version updates go straight to develop, grouped to keep PR noise low.
+# Security updates ignore target-branch and always open against main; the
+# dependabot-auto-merge workflow moves those to develop.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /
+    target-branch: develop
+    schedule:
+      interval: weekly
+    groups:
+      python-minor-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: npm
+    directory: /theme
+    target-branch: develop
+    schedule:
+      interval: weekly
+    groups:
+      npm-minor-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: develop
+    schedule:
+      interval: monthly
