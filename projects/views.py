@@ -46,22 +46,35 @@ PROJECTS_DATA = {
             {
                 'name': 'Mobile app',
                 'slug': 'app',
-                'description': 'iOS app for exploring historical temperature data',
+                'description': 'Android app for exploring historical temperature data',
                 'github_url': 'https://github.com/turnpiece/temphist_app',
                 'readme_url': 'https://raw.githubusercontent.com/turnpiece/temphist_app/main/README.md',
                 'api_url': 'https://api.github.com/repos/turnpiece/temphist_app',
                 'tech_stack': ['Flutter', 'Dart', 'Firebase'],
-                'custom_description': 'The TempHist iOS app lets you see how today\'s temperature compares with historical records for the same date. Browse by day, week, month or year, search for any location in the world, and share snapshots with friends.',
+                # Add the App Store entry here when the iOS app is released
+                'store_links': [
+                    {
+                        'platform': 'Android',
+                        'store': 'Google Play',
+                        'url': 'https://play.google.com/store/apps/details?id=com.turnpiece.temphist',
+                    },
+                ],
+                'custom_description': 'The TempHist app for Android lets you see how today\'s temperature compares with historical records for the same date. Browse by day, week, month or year, search for any location in the world, and share snapshots with friends.',
                 'features': [
                     'Horizontal bar chart showing temperatures across decades',
                     'Daily, weekly, monthly and yearly views',
                     'Location selection with search',
                     'Social sharing',
-                    'Available on iOS',
+                    'Available on Android via Google Play',
                     'Firebase-powered real-time data',
                 ],
                 'screenshots': [
-                    {'src': 'assets/TempHist-iPhone-screenshot.png', 'alt': 'TempHist iOS app', 'caption': 'Temperature history at a glance'},
+                    {
+                        'src': 'assets/TempHist-Android-screenshot.png',
+                        'alt': 'TempHist Android app',
+                        'caption': 'Temperature history at a glance',
+                        'url': 'https://play.google.com/store/apps/details?id=com.turnpiece.temphist',
+                    },
                 ],
             },
             {
