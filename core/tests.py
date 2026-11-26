@@ -64,3 +64,23 @@ class CheckRateLimitTests(TestCase):
         for _ in range(3):
             check_rate_limit(self._make_request(ip=ip))
         self.assertFalse(check_rate_limit(self._make_request(ip=ip)))
+
+
+class SitemapTests(TestCase):
+    def test_sitemap_lists_all_pages(self):
+        from projects.views import PROJECTS_DATA
+        response = self.client.get('/sitemap.xml')
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode()
+        self.assertIn('https://testserver/</loc>', content)
+        self.assertIn('https://testserver/projects/</loc>', content)
+        self.assertNotIn('<lastmod>', content)
+        for slug, project in PROJECTS_DATA.items():
+            self.assertIn(f'/projects/{slug}/</loc>', content)
+            for repo in project['repositories']:
+                self.assertIn(f'/projects/{slug}/{repo["slug"]}/</loc>', content)
+
+    def test_robots_txt_points_to_sitemap(self):
+        response = self.client.get('/robots.txt')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Sitemap: https://testserver/sitemap.xml', response.content.decode())

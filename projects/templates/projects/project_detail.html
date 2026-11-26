@@ -79,6 +79,14 @@
                                class="btn-secondary">
                                 View Documentation
                             </a>
+                            {% for link in repo.store_links %}
+                            <a href="{{ link.url }}"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="btn-secondary">
+                                {{ link.store }}
+                            </a>
+                            {% endfor %}
                             <a href="{{ repo.github_url }}" 
                                target="_blank"
                                class="btn-secondary">

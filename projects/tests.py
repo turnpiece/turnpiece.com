@@ -101,7 +101,8 @@ class ProjectListViewTests(TestCase):
 
 class RepositoryDetailViewTests(TestCase):
     FAKE_README = '# TempHist App\n\nThis is the **readme** content.'
-    FAKE_COMMIT_DATE = '2026-05-18T12:00:00Z'  # 10 days before test date (2026-05-28)
+    # 10 days before now, so the page always shows "10 days ago"
+    FAKE_COMMIT_DATE = (datetime.now(timezone.utc) - timedelta(days=10)).strftime('%Y-%m-%dT%H:%M:%SZ')
 
     def setUp(self):
         cache.clear()
@@ -174,3 +175,32 @@ class RepositoryDetailViewTests(TestCase):
     def test_invalid_repo_slug_returns_404(self):
         response = self.client.get('/projects/temphist/nonexistent/')
         self.assertEqual(response.status_code, 404)
+
+
+class AppStoreLinkTests(TestCase):
+    PLAY_URL = 'https://play.google.com/store/apps/details?id=com.turnpiece.temphist'
+
+    def setUp(self):
+        cache.clear()
+        self.client = Client()
+
+    def tearDown(self):
+        cache.clear()
+
+    def test_project_page_links_to_google_play(self):
+        response = self.client.get('/projects/temphist/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.PLAY_URL)
+        self.assertNotContains(response, 'Available on iOS')
+
+    @patch('projects.views.requests.get')
+    def test_app_page_links_to_google_play(self, mock_get):
+        mock_resp = MagicMock()
+        mock_resp.status_code = 404
+        mock_get.return_value = mock_resp
+        response = self.client.get('/projects/temphist/app/')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.PLAY_URL)
+        self.assertContains(response, 'Get it on Google Play')
+        self.assertNotContains(response, 'Available on iOS')
+        self.assertNotContains(response, 'TempHist iOS app')

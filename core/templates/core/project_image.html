@@ -13,18 +13,23 @@
     </a>
 </div>
 {% elif repo.logo %}
-<div class="flex items-start justify-center {{ container_height|default:'h-96' }} rounded-lg border border-gray-200 p-4"{% if project.colour %} style="background-color: {{ project.colour }};"{% endif %}>
-    <img src="{% static repo.logo %}"
-         alt="{{ repo.name }} logo"
-         class="h-24 w-auto object-none">
+<div class="p-2">
+    <a href="{% url 'repository_detail' repo.project_slug repo.slug %}"
+       class="flex items-start justify-center {{ container_height|default:'h-96' }} rounded-lg border border-gray-200 hover:border-gray-900 transition-colors p-4"{% if project.colour %} style="background-color: {{ project.colour }};"{% endif %}>
+        <img src="{% static repo.logo %}"
+             alt="{{ repo.name }} logo"
+             class="h-24 w-auto object-none">
+    </a>
 </div>
 {% else %}
-<div class="flex items-start justify-center {{ container_height|default:'h-96' }} rounded-lg border border-gray-200 p-4"{% if project.colour %} style="background-color: {{ project.colour }};"{% endif %}>
-    <div class="text-center text-gray-500">
-        <svg class="w-16 h-16 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
-        </svg>
-        <p class="text-sm">No image available</p>
+<div class="p-2">
+    <div class="flex items-start justify-center {{ container_height|default:'h-96' }} rounded-lg border border-gray-200 p-4"{% if project.colour %} style="background-color: {{ project.colour }};"{% endif %}>
+        <div class="text-center text-gray-500">
+            <svg class="w-16 h-16 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+            </svg>
+            <p class="text-sm">No image available</p>
+        </div>
     </div>
 </div>
 {% endif %}
