@@ -32,8 +32,9 @@ if [[ "$base" != "$target" ]]; then
 fi
 
 # Test the PR as it would look once merged into the latest develop.
-git fetch --quiet origin "$target" "pull/$pr/head"
-head_sha=$(git rev-parse FETCH_HEAD)
+# Fetch into a named ref: with two refspecs FETCH_HEAD points at the first (develop).
+git fetch --quiet origin "$target" "+pull/$pr/head:refs/remotes/pr/$pr"
+head_sha=$(git rev-parse "refs/remotes/pr/$pr")
 git checkout --quiet --detach "origin/$target"
 if ! git -c user.name=ci -c user.email=ci@localhost merge --quiet --no-edit "$head_sha"; then
   git merge --abort
