@@ -112,3 +112,13 @@ def contact_view(request):
         "submitted": submitted, 
         "error_message": error_message
     })
+
+
+def robots_txt(request):
+    """Allow all crawlers and point them at the sitemap."""
+    lines = [
+        "User-agent: *",
+        "Disallow: /admin/",
+        f"Sitemap: https://{request.get_host()}/sitemap.xml",
+    ]
+    return HttpResponse("\n".join(lines) + "\n", content_type="text/plain")
