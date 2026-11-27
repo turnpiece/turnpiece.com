@@ -1,6 +1,6 @@
-# Routine version updates go straight to develop, grouped to keep PR noise low.
-# Security updates ignore target-branch and always open against main; the
-# dependabot-auto-merge workflow moves those to develop.
+# Version updates go to develop, grouped to keep PR noise low. Security
+# updates ignore target-branch and open against the default branch, which is
+# also develop. If one targets main anyway, dependabot-auto-merge moves it.
 version: 2
 updates:
   - package-ecosystem: pip
