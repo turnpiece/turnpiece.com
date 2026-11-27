@@ -32,6 +32,29 @@ def tech_to_slug(tech_name):
     }
     return tech_mapping.get(tech_name, tech_name.lower().replace(' ', '-'))
 
+def og_image_for(*sources):
+    """Return the static path of the first image usable as an og:image.
+
+    Each source is a project or repository dict. An explicit `og_image` wins,
+    then a screenshot, then a logo. Returns None when no source has an image,
+    so the template can leave the og:image tag out.
+    """
+    for source in sources:
+        if not source:
+            continue
+        screenshots = source.get('screenshots') or []
+        candidates = [
+            source.get('og_image'),
+            source.get('screenshot'),
+            screenshots[0].get('src') if screenshots else None,
+            source.get('logo'),
+            source.get('logo_png'),
+        ]
+        for candidate in candidates:
+            if candidate:
+                return candidate
+    return None
+
 # Single source of truth for project data
 PROJECTS_DATA = {
     'temphist': {
@@ -122,6 +145,9 @@ PROJECTS_DATA = {
         'description': 'The website you are looking at right now',
         'logo_svg': 'assets/tp-logo-white-transparent-fixed.svg',
         'logo_png': 'assets/tp-logo-white-transparent-fixed.png',
+        # The header logo is white on transparent, which vanishes in light-mode
+        # link previews, so share the opaque app icon instead.
+        'og_image': 'assets/android-chrome-512x512.png',
         'overview': 'This is a Python Django application that pulls live README documentation and repository metadata directly from GitHub, so the content stays up to date without manual editing.',
         'repositories': [
             {
@@ -209,7 +235,10 @@ def project_detail_view(request, project_slug):
     for repo in project['repositories']:
         repo['project_slug'] = project_slug
     
-    return render(request, "projects/project_detail.html", {"project": project})
+    return render(request, "projects/project_detail.html", {
+        "project": project,
+        "og_image": og_image_for(project),
+    })
 
 def repository_detail_view(request, project_slug, repo_slug):
     """Show individual repository documentation."""
@@ -288,6 +317,7 @@ def repository_detail_view(request, project_slug, repo_slug):
         "content": html_content,
         "repo_info": repo_info,
         "last_updated": last_updated,
+        "og_image": og_image_for(repo_info, project),
     })
 
 def convert_markdown_to_html(markdown_text):
