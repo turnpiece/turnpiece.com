@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Turnpiece{% endblock %}</title>
     <link rel="canonical" href="{{ canonical_url }}">
+    {% block meta %}
+    <meta property="og:site_name" content="Turnpiece">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta name="twitter:card" content="summary_large_image">
+    {% block og_meta %}
+    <meta name="description" content="Turning ideas into applications.">
+    <meta property="og:title" content="Turnpiece">
+    <meta property="og:description" content="Turning ideas into applications.">
+    <meta property="og:image" content="{{ site_url }}{% static 'assets/og-turnpiece.png' %}">
+    {% endblock %}
+    {% endblock %}
     <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
     {% block head %}{% endblock %}

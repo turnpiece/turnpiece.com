@@ -3,6 +3,13 @@
 
 {% block title %}{{ project.name }} Project{% endblock %}
 
+{% block og_meta %}
+<meta name="description" content="{{ project.description }}">
+<meta property="og:title" content="{{ project.name }}{% if project.name != 'Turnpiece' %} — Turnpiece{% endif %}">
+<meta property="og:description" content="{{ project.description }}">
+{% if og_image %}<meta property="og:image" content="{{ site_url }}{% static og_image %}">{% endif %}
+{% endblock %}
+
 {% block content %}
 <div class="max-w-2xl mx-auto px-4 py-8">
     <div class="mb-8">

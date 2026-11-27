@@ -96,6 +96,15 @@ class CanonicalUrlTests(TestCase):
         self.assertContains(response, '<link rel="canonical" href="https://turnpiece.com/projects/">', html=False)
 
 
+class HomeOpenGraphTests(TestCase):
+    def test_home_has_site_name_and_tagline(self):
+        response = self.client.get('/')
+        self.assertContains(response, '<meta property="og:site_name" content="Turnpiece">', html=False)
+        self.assertContains(response, '<meta property="og:title" content="Turnpiece">', html=False)
+        self.assertContains(response, '<meta property="og:description" content="Turning ideas into applications.">', html=False)
+        self.assertContains(response, '<meta property="og:image" content="https://turnpiece.com/static/assets/og-turnpiece', html=False)
+
+
 class WwwRedirectTests(TestCase):
     def test_www_redirects_permanently_to_apex(self):
         with self.settings(ALLOWED_HOSTS=['www.turnpiece.com']):
