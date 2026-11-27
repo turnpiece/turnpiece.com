@@ -221,26 +221,27 @@ class OpenGraphTests(TestCase):
             '<meta property="og:description" content="Historical temperature visualisation and analysis platform">',
             html=False,
         )
-        self.assertContains(response, '<meta property="og:image" content="https://turnpiece.com/static/assets/temphist-logo', html=False)
+        self.assertContains(response, '<meta property="og:image" content="https://turnpiece.com/static/assets/og-temphist', html=False)
         self.assertContains(response, '<meta property="og:url" content="https://turnpiece.com/projects/temphist/">', html=False)
 
-    def test_portfolio_project_uses_opaque_icon(self):
+    def test_portfolio_project_uses_share_card(self):
         response = self.client.get('/projects/portfolio/')
-        self.assertContains(response, 'content="https://turnpiece.com/static/assets/android-chrome-512x512', html=False)
+        self.assertContains(response, 'content="https://turnpiece.com/static/assets/og-turnpiece', html=False)
         self.assertContains(response, '<meta property="og:title" content="Turnpiece">', html=False)
 
     @patch('projects.views.requests.get')
-    def test_repository_page_prefers_screenshot(self, mock_get):
+    def test_repository_page_uses_project_share_card(self, mock_get):
         mock_get.return_value = MagicMock(status_code=404)
         response = self.client.get('/projects/temphist/app/')
         self.assertContains(response, '<meta property="og:title" content="Mobile app — TempHist">', html=False)
-        self.assertContains(response, 'content="https://turnpiece.com/static/assets/TempHist-Android-screenshot', html=False)
+        self.assertContains(response, 'content="https://turnpiece.com/static/assets/og-temphist', html=False)
 
     def test_og_image_for_picks_first_available(self):
         from .views import og_image_for
         self.assertEqual(og_image_for({'logo': 'a.png'}, {'logo_png': 'b.png'}), 'a.png')
         self.assertEqual(og_image_for({}, {'logo_png': 'b.png'}), 'b.png')
         self.assertEqual(og_image_for({'screenshots': [{'src': 's.png'}], 'logo': 'a.png'}), 's.png')
+        self.assertEqual(og_image_for({'screenshot': 's.png'}, {'og_image': 'card.png'}), 'card.png')
         self.assertIsNone(og_image_for({}, None))
 
     @patch('projects.views.og_image_for', return_value=None)

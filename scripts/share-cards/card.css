@@ -1,0 +1,9 @@
+* { margin: 0; box-sizing: border-box; }
+html, body { width: 1200px; height: 630px; overflow: hidden; }
+body {
+  display: flex; align-items: center; gap: 72px; padding: 0 110px;
+  font-family: -apple-system, system-ui, "Helvetica Neue", sans-serif;
+}
+img { width: 300px; height: 300px; flex: none; }
+h1 { font-size: 96px; font-weight: 700; letter-spacing: -2px; line-height: 1; }
+p { font-size: 40px; line-height: 1.25; margin-top: 24px; }
