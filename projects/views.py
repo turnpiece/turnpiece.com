@@ -33,18 +33,21 @@ def tech_to_slug(tech_name):
     return tech_mapping.get(tech_name, tech_name.lower().replace(' ', '-'))
 
 def og_image_for(*sources):
-    """Return the static path of the first image usable as an og:image.
+    """Return the static path of the image to use as a page's og:image.
 
-    Each source is a project or repository dict. An explicit `og_image` wins,
-    then a screenshot, then a logo. Returns None when no source has an image,
-    so the template can leave the og:image tag out.
+    Each source is a project or repository dict, most specific first. A
+    1200x630 `og_image` share card on any source wins, so every page of a
+    project gets a large preview card; otherwise the first screenshot or logo
+    found is used. Returns None when no source has an image, so the template
+    can leave the og:image tag out.
     """
+    sources = [source for source in sources if source]
     for source in sources:
-        if not source:
-            continue
+        if source.get('og_image'):
+            return source['og_image']
+    for source in sources:
         screenshots = source.get('screenshots') or []
         candidates = [
-            source.get('og_image'),
             source.get('screenshot'),
             screenshots[0].get('src') if screenshots else None,
             source.get('logo'),
@@ -64,6 +67,8 @@ PROJECTS_DATA = {
         'colour': '#242456',  # Dark blue colour
         'logo_svg': 'assets/temphist-logo.svg',
         'logo_png': 'assets/temphist-logo.png',
+        # 1200x630 share card, rendered by scripts/share-cards/render.sh
+        'og_image': 'assets/og-temphist.png',
         'overview': 'TempHist is a platform for visualising and analysing historical temperature data, compare the today\'s temperature with the temperatures on the same date and in the same location over the past 50 years. The project consists of an API that provides temperature data and analysis, along with a mobile app and a website that visualise the data.',
         'repositories': [
             {
@@ -145,9 +150,8 @@ PROJECTS_DATA = {
         'description': 'The website you are looking at right now',
         'logo_svg': 'assets/tp-logo-white-transparent-fixed.svg',
         'logo_png': 'assets/tp-logo-white-transparent-fixed.png',
-        # The header logo is white on transparent, which vanishes in light-mode
-        # link previews, so share the opaque app icon instead.
-        'og_image': 'assets/android-chrome-512x512.png',
+        # 1200x630 share card, rendered by scripts/share-cards/render.sh
+        'og_image': 'assets/og-turnpiece.png',
         'overview': 'This is a Python Django application that pulls live README documentation and repository metadata directly from GitHub, so the content stays up to date without manual editing.',
         'repositories': [
             {

@@ -102,7 +102,7 @@ class HomeOpenGraphTests(TestCase):
         self.assertContains(response, '<meta property="og:site_name" content="Turnpiece">', html=False)
         self.assertContains(response, '<meta property="og:title" content="Turnpiece">', html=False)
         self.assertContains(response, '<meta property="og:description" content="Turning ideas into applications.">', html=False)
-        self.assertContains(response, '<meta property="og:image" content="https://turnpiece.com/static/', html=False)
+        self.assertContains(response, '<meta property="og:image" content="https://turnpiece.com/static/assets/og-turnpiece', html=False)
 
 
 class WwwRedirectTests(TestCase):
