@@ -55,7 +55,7 @@ turnpiece.com/
 ### Prerequisites
 
 - Python 3.8 or higher
-- Node.js 18 or higher (for Tailwind CSS)
+- Node.js 20 or higher (for Tailwind CSS 4)
 
 ### Quick start
 
@@ -182,7 +182,9 @@ npm run build
 
 - Adding new Tailwind classes to templates
 - Modifying template files
-- Making changes to `tailwind.config.js`
+- Making changes to `theme/static_src/src/styles/input.css`
+
+Tailwind 4 is configured in that CSS file, not in a `tailwind.config.js`. Its `@source` lines list the template folders Tailwind scans for class names, so add a line there for any new app's templates.
 
 ## Configuration
 
